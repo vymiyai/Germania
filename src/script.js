@@ -1,25 +1,55 @@
-window.addEventListener('load',function(e) 
+window.addEventListener( 'load',function( e ) 
 {
  	// Set up Quintus instance____________________________________________________
   	var Q = window.Q = Quintus().
-    	include("Sprites, Scenes, Input").
-    	setup({ width: config.screen.width, height: config.screen.height });
+    	include( "Sprites, Scenes, Input, Anim" ).
+    	setup( { width: config.screen.width, height: config.screen.height } );
   
   
   
  	// Character class definition_________________________________________________
 	Q.Sprite.extend( "Character", 
 	{
-		init: function( sheetName ) 
+		init: function( characterName ) 
 		{
 			this._super(
 			{
-				sheet: sheetName,
-				frame: config.sprites.actions.idle,
+              	sprite: "characterAnimations",
+				sheet: config.spritesheets[ characterName ],
 				h: config.sprites.portraits.height,
-				w: config.sprites.portraits.width
+				w: config.sprites.portraits.width,
+              	opacity: 0
 			});
-		}
+          
+          	this.add( "animation" );
+          	this.add( "tween" );
+          
+          	//this.on( "summon" );
+          	this.on( "summon", this, "dismiss" );
+          	this.on( "dismiss" );
+          
+          	// default action____________________________________________________
+          	this.play( "idle" );
+		},
+      
+        dismiss: function()
+        {
+        	this.animate( { opacity: 0 }, 1 );
+        },
+      
+        summon: function()
+        {
+          	/*
+          	var triggerDismiss = function()
+            {
+              	this.trigger("dismiss"); console.log("teste"); 
+            };
+          	
+          	this.animate({ opacity: 1 }, 1, Q.Easing.Linear, { callback:triggerDismiss } );
+            */
+          
+          	this.animate( { opacity: 1 }, 1 );
+        }
 	});
         
 
@@ -29,9 +59,9 @@ window.addEventListener('load',function(e)
   	// Create a simple scene that adds two shapes on the page
   	Q.scene("start",function(stage) 
     {
-        var sprite1 = new Q.Character( 'character' );
+        var sprite1 = new Q.Character( "Suwako" );
       
-        sprite1.set( { x: config.screen.width/2, y: config.sprites.portraits.height/2 } );
+     	sprite1.set( { x: config.screen.width/2, y: config.sprites.portraits.height/2, flip: "x" } );
         
         stage.insert(sprite1);
         
@@ -50,6 +80,9 @@ window.addEventListener('load',function(e)
     	};
       
     	stage.insert(sprite2);
+      
+      	// input test
+        Q.input.on( 'fire', sprite1, "summon" );
   	});
 
   
@@ -60,6 +93,11 @@ window.addEventListener('load',function(e)
   Q.load( [ "suwako.png", "character.json" ], function() 
     {
        	Q.compileSheets( "suwako.png", "character.json" );
+      
+      	Q.animations( "characterAnimations",
+		{
+          	idle: { frames: [2, 7], rate: 0.5 }
+		});
   
       	// Start the show
       	Q.stageScene("start");
