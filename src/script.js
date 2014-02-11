@@ -10,6 +10,7 @@ window.addEventListener( 'load',function( e )
  	// Character class definition_________________________________________________
 	Q.Sprite.extend( "Character", 
 	{
+      	// constructor.
 		init: function( characterName ) 
 		{
 			this._super(
@@ -21,35 +22,28 @@ window.addEventListener( 'load',function( e )
               	opacity: 0
 			});
           
+          	// adding animation and tweening capabilities.
           	this.add( "animation" );
           	this.add( "tween" );
           
-          	//this.on( "summon" );
-          	this.on( "summon", this, "dismiss" );
-          	this.on( "dismiss" );
+          	this.on( "summon", this, "summon" );
+          	this.on( "dismiss", this, "dismiss" );
           
-          	// default action____________________________________________________
+          	// default action.
           	this.play( "idle" );
 		},
       
-        dismiss: function()
-        {
-        	this.animate( { opacity: 0 }, 1 );
-        },
-      
+      	// public methods.
         summon: function()
         {
-          	/*
-          	var triggerDismiss = function()
-            {
-              	this.trigger("dismiss"); console.log("teste"); 
-            };
-          	
-          	this.animate({ opacity: 1 }, 1, Q.Easing.Linear, { callback:triggerDismiss } );
-            */
-          
-          	this.animate( { opacity: 1 }, 1 );
+          	this.animate( { opacity: 1 }, config.animations.summonDuration );
+        },
+      
+        dismiss: function()
+        {
+        	this.animate( { opacity: 0 }, config.animations.dismissDuration );
         }
+      
 	});
         
 
@@ -82,7 +76,8 @@ window.addEventListener( 'load',function( e )
     	stage.insert(sprite2);
       
       	// input test
-        Q.input.on( 'fire', sprite1, "summon" );
+        Q.input.on( 'action', sprite1, "dismiss" );
+      	Q.input.on( 'fire', sprite1, "summon" );
   	});
 
   

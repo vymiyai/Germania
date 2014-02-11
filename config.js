@@ -9,3 +9,5 @@ config.sprites.actions = { "idle": 0 };
 config.dialogBox = { "width": 700, "height": 100, "x": config.screen.width * 0.5, "y": config.screen.height - 80 };
 
 config.spritesheets = { "Suwako":"character" };
+
+config.animations = { "summonDuration": 1, "dismissDuration": 1 };
