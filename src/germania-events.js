@@ -1,3 +1,5 @@
+"use strict";
+
 var EVENTS = {};
 
 // EVENT 01 - KILL 10 ENEMY SOLDIERS
