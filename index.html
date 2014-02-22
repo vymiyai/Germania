@@ -3,15 +3,36 @@
 <head>
   	<meta charset="UTF-8" />
 	<title>Sprite Test</title>
+  	<!--
   	<script src='../Germania/lib/quintus-all.min.js'></script>
+	
   	<style>
 		canvas { background-color:black; }
   	</style>
+	-->
   	<!-- configuration file -->
 	<script src='config.js'></script>
   
   	<!-- application logic -->
-	<script src='src/script.js'></script>
+  	<!--
+	<script src='src/germania-core.js'></script>
+	-->
+  	<script src='src/germania-script.js'></script>
+  	<script src='src/germania-variables.js'></script>
+  	<script src='src/germania-event.js'></script>
+  	<script src='src/germania-events.js'></script>
+  	<script>
+      alert( "EVENT 01 " + EVENTS[ "EVENT 01" ].resolve() );
+      alert( "EVENT 01 " + EVENTS[ "EVENT 01" ].resolve() );
+      
+      VARIABLES[ "SOLDIERS KILLED" ] = 19;
+      alert( "EVENT 01 " + EVENTS[ "EVENT 01" ].resolve() );
+      
+      VARIABLES[ "TALKED TO LOTTA" ] = 1;
+      alert( "EVENT 02 " + EVENTS[ "EVENT 02" ].resolve() );
+      
+      alert( "EVENT 03 " + EVENTS[ "EVENT 03" ].resolve() );
+  	</script>
 </head>
 <body>
 </body>
