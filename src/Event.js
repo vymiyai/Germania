@@ -3,48 +3,24 @@
 // uses global variables in the preconditions variable...
 
 // defines a game event object with preconditions.
-var Event = function( preconditions )
+var Event = function( name, destination, completionCondition, callback )
 {
-    this.preconditions 	= preconditions;
-    this.resolved 		= false;
+  	this.name 					= name;
+  	this.destination			= destination;
+    this.completionCondition 	= completionCondition;
+  	this.callback				= callback;
   
     // checks if a condition has been resolved.
-    this.resolve = function()
+    this.resolve = function( parentEscave )
     {
-        // condition already resolved.
-        if( this.resolved )
-        {
-            return true;
-        }
-        else
-        {
-        	// iterate through all preconditions and resolve them.
-            for( var index = 0; index < this.preconditions.length; index++ )
-            {
-            	var condition = this.preconditions[ index ];
-              
-                // check if the condition evaluates a leaf expression (a functor).
-                if( typeof condition === "function" )
-                {
-                    if( condition() )
-                        continue;
-                    else
-                        return false;
-                }
-              	// the condition is a composite event/expression (Event object).
-                else
-                {
-					if( condition.resolve() )
-						continue;
-					else
-                  		return false;
-                }
-			}
-          
-            // if the expression is true or all preconditions are true, set
-            // resolved status as true and return.
-            this.resolved = true;
-            return true;
-        }
-    };
+		if( completionCondition( parentEscave, this ) )
+		{
+			this.callback( parentEscave, this );
+			return true;
+		}
+		else
+		{
+			return false;            	
+		}
+    }
 };

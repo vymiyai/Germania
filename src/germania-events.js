@@ -1,15 +1,195 @@
 "use strict";
 
+// IMPLEMENTAR UM OBSERVER SERIA INTERESSANTE PRA REGISTRAR TODAS OS EVENTS ATIVOS
+// REGISTRAR o CHECKOUT DA QUEST NA ESCAVE DESTINO
+// EVENTS tem que ter como parametros 2 coisas: condicoes de termino e callback. Novos eventos sao adicionados no callback.
+// quando profiles sao salvos, os eventos de todas as escaves sao salvas....
+// quando o jogador chega numa escave, so os eventos dessa escave sao testados por complitude e trigger de outros eventos...
+// criar script so com as escaves numa variavel global pra ter acesso facil pro registro de eventos nas callbacks de eventos.
+// a lista de events registradas numa escave e uma FIFO
+// unregisters de eventos permanentes como scout e scavange nao sao desregistrados das escaves...
+
 var EVENTS = {};
 
-// EVENT 01 - KILL 10 ENEMY SOLDIERS
-var EVENT01 = new Event( [ function(){ return VARIABLES[ "SOLDIERS KILLED" ] >= 10; } ] );
-EVENTS[ "EVENT 01" ] = EVENT01;
+// STANDARD SCAVENGE MISSION - Optional Mission 01
 
-// EVENT 02 - TALK TO LOTTA
-var EVENT02 = new Event( [ function(){ return VARIABLES[ "TALKED TO LOTTA" ] >= 1; } ] );
-EVENTS[ "EVENT 02" ] = EVENT02;
+// through the specification, the only possible destination of a scavenge mission is the origin location.
+EVENTS[ "SCAVENGE MISSION" ] = new Event( 
+  	"SCAVENGE MISSION",
+  	"SELF",
+	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== parentEscave.name;
+      	return mission && location;
+    }, 
+	function( parentEscave, self )
+  	{ 
+      	//alert( "SCAVENGE MISSION COMPLETE" );
+    } );
+    
+    
 
-// EVENT 03 - REACH THE BUNKER
-var EVENT03 = new Event( [ EVENT01, EVENT02 ] );
-EVENTS[ "EVENT 03" ] = EVENT03;
+// STANDARD SCOUT MISSION - Optional Mission 02
+EVENTS[ "SCOUT MISSION" ] = new Event( 
+  	"SCOUT MISSION",
+  	"SELF",
+	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== parentEscave.name;
+      	return mission && location;
+    }, 
+	function( parentEscave, self )
+  	{ 
+      	//alert( "SCOUT MISSION COMPLETE" );
+    } );
+
+
+
+
+
+
+// START MISSION - Story Mission 000
+EVENTS[ "START MISSION" ] = new Event(
+	"START MISSION",
+  	"PODISH",
+	function( parentEscave, self )
+	{ 
+      	var location = VARIABLES[ "CURRENT LOCATION" ] == "PODISH";
+		return location; 
+	}, 
+	function( parentEscave, self )
+	{
+		//alert( "SUPPLY AMMO TO INCUBATOR REGISTERED IN PODISH!" );
+              
+		ESCAVES[ "PODISH" ].registerEvent( EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] ); 
+		ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "START MISSION" ] );
+	} );
+
+// SUPPLY AMMO TO INCUBATOR - Story Mission 001
+EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] = new Event( 
+  	"SUPPLY AMMO TO INCUBATOR",
+  	"INCUBATOR",
+  	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== self.destination;
+      	return mission && location; 
+    }, 
+  	function( parentEscave, self )
+  	{
+      	//alert( "SUPPLY AMMO TO INCUBATOR COMPLETE" );
+      
+      	ESCAVES[ "INCUBATOR" ].registerEvent( EVENTS[ "TARGET PRACTICE" ] ); 
+      	ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] );
+    } );
+
+// TARGET PRACTICE MISSION - Story Mission 002
+EVENTS[ "TARGET PRACTICE" ] = new Event( 
+  	"TARGET PRACTICE",
+  	"INCUBATOR",
+	function( parentEscave, self )
+  	{
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== self.destination;
+      	var condition = VARIABLES[ "TRAINING TARGETS SHOT" ] >= 3;
+      	return mission && location && condition; 
+	}, 
+	function( parentEscave, self )
+  	{ 
+      	//alert( "TARGET PRACTICE COMPLETE" );
+      
+      	ESCAVES[ "INCUBATOR" ].registerEvent( EVENTS[ "FIRST SCAVENGE MISSION" ] ); 
+      	ESCAVES[ "INCUBATOR" ].unregisterEvent( EVENTS[ "TARGET PRACTICE" ] );
+    } );
+
+// FIRST SCAVENGE MISSION - Story Mission 003
+EVENTS[ "FIRST SCAVENGE MISSION" ] = new Event( 
+  	"FIRST SCAVENGE MISSION",
+  	"INCUBATOR",
+  	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== self.destination;
+      	var condition = VARIABLES[ "FOOD SUPPLIED" ] >= 5; 
+      	return mission && location && condition; 
+    },
+	function( parentEscave, self )
+  	{ 
+      	//alert( "FIRST SCAVENGE MISSION COMPLETE" );
+      
+      	ESCAVES[ "INCUBATOR" ].unregisterEvent( EVENTS[ "FIRST SCAVENGE MISSION" ] ); 
+      	ESCAVES[ "INCUBATOR" ].registerEvent( EVENTS[ "SUPPLY FOOD TO PODISH" ] );
+      
+      	// enable scavenge missions.
+      	for( var key in ESCAVES )
+      		ESCAVES[ key ].registerEvent( EVENTS[ "SCAVENGE MISSION" ] );
+    } );
+
+// SUPPLY FOOD TO PODISH - Story Mission 004
+EVENTS[ "SUPPLY FOOD TO PODISH" ] = new Event( 
+  	"SUPPLY FOOD TO PODISH",
+  	"PODISH",
+  	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== self.destination;
+      	return mission && location;
+    },
+	function( parentEscave, self )
+  	{
+      	//alert( "SUPPLY FOOD TO PODISH COMPLETE" );
+      
+      	ESCAVES[ "INCUBATOR" ].unregisterEvent( EVENTS[ "SUPPLY FOOD TO PODISH" ] ); 
+      	ESCAVES[ "PODISH" ].registerEvent( EVENTS[ "FIRST SCOUT MISSION" ] ); 
+    } );
+
+
+// FIRST SCOUT MISSION - Story Mission 005
+EVENTS[ "FIRST SCOUT MISSION" ] = new Event( 
+  	"FIRST SCOUT MISSION",
+  	"PODISH",
+  	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== self.destination;
+      	var condition = VARIABLES[ "SCOUT MISSION COMPLETED" ] >= 1;
+      	return mission && location && condition; 
+    },
+	function( parentEscave, self )
+  	{ 
+      	//alert( "FIRST SCOUT MISSION COMPLETE" );
+      
+      	ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "FIRST SCOUT MISSION" ] );
+      	ESCAVES[ "PODISH" ].registerEvent( EVENTS[ "HOLD THE LINE" ] );
+      
+      	// enable scout missions.
+      	for( var key in ESCAVES )
+      		ESCAVES[ key ].registerEvent( EVENTS[ "SCOUT MISSION" ] );
+    } );
+
+// HOLD THE LINE - Story Mission 006
+EVENTS[ "HOLD THE LINE" ] = new Event( 
+  	"HOLD THE LINE",
+  	"PODISH",
+  	function( parentEscave, self )
+  	{ 
+      	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
+      	var location = VARIABLES[ "CURRENT LOCATION" ] 	== self.destination;
+      	var condition = VARIABLES[ "HOLD THE LINE MISSION COMPLETED" ] >= 1;
+      	return mission && location && condition; 
+    },
+	function( parentEscave, self )
+  	{ 
+      	//alert( "FIRST SCOUT MISSION COMPLETE" );
+
+      	ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "HOLD THE LINE" ] );
+      
+      	alert( "END OF EXECUTION" );
+    } );
+
+// Escort convoy to Escave 02
+
+// Capture the Railway
+
