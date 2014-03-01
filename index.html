@@ -21,6 +21,7 @@
   	<script src='src/Profiler.js'></script>
   	<script src='src/ProfilerHelper.js'></script>
   	<script src='src/Escave.js'></script>
+  	<script src='src/EventEngine.js'></script>
   
   	<!-- configuration file -->
   	<script src='src/germania-config.js'></script>
@@ -34,115 +35,20 @@
   
   
   	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
-  	<!-- init stuff -->
-  	<script>
-        "use strict";
-      
-      	var enterEscave = function()
-        {
-          	// call resolveEvents on all Escaves, as one event may have started in one escave and finished on another one.
-          	var needToKeepResolving = function()
-            {
-              	for( var key1 in ESCAVES )
-                {
-              		if( ESCAVES[ key1 ].eventsToBeAdded.length > 0 || ESCAVES[ key1 ].eventsToBeRemoved.length > 0 )
-                      return true;
-                }
-                  
-                return false;
-            };
-          
-          	do
-            {
-          		for( var key2 in ESCAVES )
-              		ESCAVES[ key2 ].resolveEvents();
-            }
-            while( needToKeepResolving() );
-          /*
-          		for( var key1 in ESCAVES )
-              		ESCAVES[ key1 ].resolveEvents();
-          
-          		for( var key2 in ESCAVES )
-              		ESCAVES[ key2 ].resolveEvents();
-                    */
-        };
-
-      	// set up starting mission stuff.
-      	ESCAVES[ "PODISH" ].activeEvents = [ EVENTS[ "START MISSION" ] ];
-  	</script>
 </head>
 <body>
   	<div id="menu">
       	<input id="newGameButton" type="button" value="NEW GAME" />
   	</div>
   	<script>
-      	var missionMenu = function() 
-            {
-              	enterEscave();
-              	VARIABLES[ "CURRENT MISSION" ] = "";
-              
-              	// jQuery code to erase and rebuild the menu.
-              	var menu = $( '#menu' );
-              	menu.empty();
-              	menu.append( $( '<h1>' + VARIABLES[ "CURRENT LOCATION" ] + '</h1>' ) ).append( $( "<br />" ) );
-              
-              	// get current Escave and show active events.
-              	var escave = ESCAVES[ VARIABLES[ "CURRENT LOCATION" ] ];
-              
-              	for( var index = 0; index < escave.activeEvents.length; index++ )
-                {
-                	var event = escave.activeEvents[ index ];
-                  
-                  	var handler = function( _event ) 
-						{
-                          	return function()
-                            {
-                                // mission selected.
-                                var mission = _event.name;
-                                VARIABLES[ "CURRENT MISSION" ] = mission;
-    
-                              	// define the proper destination name.
-                                var destination = "";
-                                if( _event.destination == "SELF" )
-                                    destination = VARIABLES[ "CURRENT LOCATION" ];
-                                else
-                                    destination = _event.destination;
-                              
-                                // code to be changed when combat engine is ready...
-                              	alert( "ACCOMPLISHING " + mission + ": APPROACHING " + destination + "..." );
-    
-                                // if the combat phase was successful and the final destination is different from the origin, 
-                                // set current location as the final destination.
-                                var missionSuccessful = true;
-                                if( missionSuccessful )
-                                {
-                                    if( _event.destination != "SELF" )
-                                        VARIABLES[ "CURRENT LOCATION" ] = destination;
-                                }
-                                else
-                                {
-                                    alert( "FAILURE CINEMATICS GO HERE..." );
-                                }
-                              
-                                // regardless if the player succeeded in the mission, refresh the mission menu.
-                                missionMenu();
-                            };
-                          
-                      	};
-                  
-                  	// create a new event menu button using the previously constructed handler and append it to the menu.
-                  	var button = $( '<input type="button" value="' + event.name +'"/>' ).click( handler( event ) );
-                  	menu.append( button ).append( $( "<br />" ) );
-                }
-            };
+      	"use strict";
       
+      	ESCAVES[ "PODISH" ].activeEvents = [ EVENTS[ "START MISSION" ] ];
       
-      
-      
-      
-      
-  		$( "#newGameButton" ).click( missionMenu );
+      	var eventEngine = new EventEngine( VARIABLES, ESCAVES );
+      	var updateMenu = function(){ eventEngine.missionMenu(); };
+        
+      	$( "#newGameButton" ).click( updateMenu );
   	</script>
 </body>
 </html>
