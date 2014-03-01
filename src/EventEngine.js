@@ -1,16 +1,40 @@
 "use strict";
 
+// controls the flow of the events and which events should be available to each Escave.
 var EventEngine = function( variables, escaves )
 {
   	this.variables = variables;
   	this.escaves = escaves;
   
+  
+  	// jquery specific and temporary methods.
+  	//___________________________________________________________________
+  
+  	// clears all elements in the menu element.
+  	this.clearMenu = function( menu )
+    {
+		menu.empty();
+		menu.append( $( '<h1>' + this.variables[ "CURRENT LOCATION" ] + '</h1>' ) );
+      	menu.append( $( "<br />" ) );
+    };
+  
+  	// appends a button element to the menu with the provided handler.
+  	this.addMenuButton = function( event, handler, menu )
+    {
+		var button = $( '<input type="button" value="' + event.name +'"/>' ).click( handler );
+		menu.append( button ).append( $( "<br />" ) );
+    };
+  
+  	// calls the combat engine to be developed in the future.
   	this.callCombatEngine = function( mission, destination )
     {
     	alert( "ACCOMPLISHING " + mission + ": APPROACHING " + destination + "..." );
       	return true;
     };
   
+	//___________________________________________________________________
+  
+  	// returns a function that will be the handler of the Escave menu button.
   	this.gethandler = function( event )
     {
       	var self = this;
@@ -48,6 +72,7 @@ var EventEngine = function( variables, escaves )
     };
   
   
+  	// returns whether further event resolutions are needed.
   	this.needToKeepResolving = function()
 	{
 		for( var key in this.escaves )
@@ -71,27 +96,8 @@ var EventEngine = function( variables, escaves )
 	};
   
   
-  	// jquery specific methods (temp).
-  	//___________________________________________________________________
-  
-  	// clears all elements in the menu element.
-  	this.clearMenu = function( menu )
-    {
-		menu.empty();
-		menu.append( $( '<h1>' + this.variables[ "CURRENT LOCATION" ] + '</h1>' ) );
-      	menu.append( $( "<br />" ) );
-    };
-  
-  	// appends a button element to the menu with the provided handler.
-  	this.addMenuButton = function( event, handler, menu )
-    {
-		var button = $( '<input type="button" value="' + event.name +'"/>' ).click( handler );
-		menu.append( button ).append( $( "<br />" ) );
-    };
-  
-	//___________________________________________________________________
-  
-  
+  	// main public method.
+  	// updates the mission menu in the current Escave.
 	this.missionMenu = function() 
 	{
       	// resolve events.
