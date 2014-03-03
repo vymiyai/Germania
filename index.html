@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   	<meta charset="UTF-8" />
-	<title>Sprite Test</title>
+	<title>Aurinko Project</title>
   	<!--
   	<script src='../Germania/lib/quintus-all.min.js'></script>
 	
@@ -23,6 +23,10 @@
   	<script src='src/Escave.js'></script>
   	<script src='src/EventEngine.js'></script>
   
+    <script src='src/BattleEngine.js'></script>
+    <script src='src/Battle.js'></script>
+    <script src='src/Theater.js'></script>
+  
   	<!-- configuration file -->
   	<script src='src/germania-config.js'></script>
   
@@ -32,8 +36,7 @@
   	<script src='src/germania-events.js'></script>
   	<script src='src/germania-escaves.js'></script>
   
-  
-  
+  	<!-- include jquery for development purposes... -->  
   	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
@@ -43,11 +46,12 @@
   	<script>
       	"use strict";
       
+      	// set default event.
       	ESCAVES[ "PODISH" ].activeEvents = [ EVENTS[ "START MISSION" ] ];
       
-      	var eventEngine = new EventEngine( VARIABLES, ESCAVES );
-      	var updateMenu = function(){ eventEngine.missionMenu(); };
-        
+      	// initialize the first menu button.
+      	var EVENT_ENGINE = new EventEngine( VARIABLES, ESCAVES );
+      	var updateMenu = function(){ EVENT_ENGINE.missionMenu(); };
       	$( "#newGameButton" ).click( updateMenu );
   	</script>
 </body>

@@ -18,6 +18,7 @@ var EventEngine = function( variables, escaves )
       	menu.append( $( "<br />" ) );
     };
   
+  
   	// appends a button element to the menu with the provided handler.
   	this.addMenuButton = function( event, handler, menu )
     {
@@ -25,11 +26,19 @@ var EventEngine = function( variables, escaves )
 		menu.append( button ).append( $( "<br />" ) );
     };
   
-  	// calls the combat engine to be developed in the future.
-  	this.callCombatEngine = function( mission, destination )
+  
+  	// calls the battle engine to be developed in the future.
+  	this.callBattleEngine = function( mission, origin, destination )
     {
-    	alert( "ACCOMPLISHING " + mission + ": APPROACHING " + destination + "..." );
-      	return true;
+    	//alert( "ACCOMPLISHING " + mission + ":\n\n" + origin + " -> " + destination );
+      
+
+      
+      	var theater = new Theater( mission, origin, destination );
+      	var battleEngine = new BattleEngine( theater );
+      
+      	// return the result of the battle.
+      	return battleEngine.run();
     };
   
 	//___________________________________________________________________
@@ -45,7 +54,8 @@ var EventEngine = function( variables, escaves )
 			var mission = event.name;
 			self.variables[ "CURRENT MISSION" ] = mission;
     
-			// define the proper destination name.
+			// define the proper destination name and the origin.
+          	var origin = self.variables[ "CURRENT LOCATION" ];
 			var destination = "";
 			if( event.destination == "SELF" )
 				destination = self.variables[ "CURRENT LOCATION" ];
@@ -54,7 +64,7 @@ var EventEngine = function( variables, escaves )
 
 			// if the combat phase was successful and the final destination is different from the origin, 
 			// set current location as the final destination.
-			var missionSuccessful = self.callCombatEngine( mission, destination );
+			var missionSuccessful = self.callBattleEngine( mission, origin, destination );
           
 			if( missionSuccessful )
 			{
@@ -63,7 +73,7 @@ var EventEngine = function( variables, escaves )
 			}
 			else
 			{
-				alert( "FAILURE CINEMATICS GO HERE..." );
+				alert( "MISSION FAILED..." );
 			}
                               
 			// regardless if the player succeeded in the mission, refresh the mission menu.
@@ -83,6 +93,7 @@ var EventEngine = function( variables, escaves )
                   
 		return false;
 	};
+  
 
   	// resolves all events until there are no events to be added or removed.
 	this.enterEscave = function()
@@ -103,11 +114,11 @@ var EventEngine = function( variables, escaves )
       	// resolve events.
 		this.enterEscave();
       
+      	// reset the current mission, as the player will be at the Escave.
 		this.variables[ "CURRENT MISSION" ] = "";
-              
-		var menu = $( '#menu' );
       
       	// erase and rebuild the menu.
+      	var menu = $( '#menu' );
 		this.clearMenu( menu );
               
 		// get current Escave and show active events.
