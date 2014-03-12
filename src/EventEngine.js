@@ -32,8 +32,6 @@ var EventEngine = function( variables, escaves )
     {
     	//alert( "ACCOMPLISHING " + mission + ":\n\n" + origin + " -> " + destination );
       
-
-      
       	var theater = new Theater( mission, origin, destination );
       	var battleEngine = new BattleEngine( theater );
       
@@ -74,6 +72,7 @@ var EventEngine = function( variables, escaves )
 			else
 			{
 				alert( "MISSION FAILED..." );
+              	// apply penalisties here...
 			}
                               
 			// regardless if the player succeeded in the mission, refresh the mission menu.

@@ -41,7 +41,14 @@ var Theater = function( mission, origin, destination )
         	alert( "Battle Ending" );
         };
       
-      	return [ new Battle( {}, bIntroduction, bEnding ) ];
+      	var belligerents = 	{
+          						//"ATTACKER":[],
+            					"ATTACKER":[ new Soldier( WEAPONS[ "RIFLE" ], "ATTACKER" ), new Soldier( WEAPONS[ "RIFLE" ], "ATTACKER" ) ], 
+								"DEFENDER":[ new Soldier( WEAPONS[ "RIFLE" ], "DEFENDER" ), new Soldier( WEAPONS[ "RIFLE" ], "DEFENDER" ) ] 
+							};
+      
+      	// prototype battle.
+      	return [ new Battle( belligerents, bIntroduction, bEnding ) ];
     };
   
   	// initialize battles.

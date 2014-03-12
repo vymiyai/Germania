@@ -1,5 +1,10 @@
 "use strict";
 
+// theaters should be generated at the mission selction menu...
+// but that means that theaters for campaign mission will change slightly...
+//unless they are predefined...
+
+
 var BattleEngine = function( theater )
 {
   	this.DEFEAT 	= false;
@@ -10,6 +15,7 @@ var BattleEngine = function( theater )
     {
       	this.theater.playIntroduction();
       
+      	// iterate through each battle.
       	for( var index = 0; index < this.theater.battles.length; index++ )
         {
           	var result = this.theater.executeBattle( index );
