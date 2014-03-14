@@ -35,7 +35,7 @@ var Battle = function( belligerents, introduction, ending )
     {
       	var turnCount = 0;
       	
-      
+      	// interate through the characters until one of the teams dies.
       	while( ! this.isBattleFinished() )
         {
           	// calculates the relative turn count based on the absolute turn count.
@@ -48,7 +48,7 @@ var Battle = function( belligerents, introduction, ending )
               	// choose targets based on the soldier's team.
               	var targets;
               	var allies;
-              	if( soldier.team == "ATTACKER" )
+              	if( soldier.getTeam() == "ATTACKER" )
                 {
                   	allies = this.attacker;
                   	targets = this.defender;
@@ -60,15 +60,16 @@ var Battle = function( belligerents, introduction, ending )
                   	targets = this.attacker;
                 }
               
-              	// calculate and apply damage.
+              	
 				var targetIndex = soldier.selectTarget( null, targets );
 				var damage = soldier.weapon.getBaseDamage();
 
               	var targetedEnemy = targets[ targetIndex ];
               	
               	// attack animation should go here?
-              	alert( soldier.team + "'S #" + allies.indexOf( soldier ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
-      	
+              	alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
+      		
+              	// calculate and apply damage.
 				targetedEnemy.hp -= damage;
 
               	// remove the enemy from the targets if they are dead.

@@ -41,10 +41,29 @@ var Theater = function( mission, origin, destination )
         	alert( "Battle Ending" );
         };
       
+      	var attackers = [];
+      	var defenders = [];
+      
+      	var n = Math.floor( ( Math.random() * 3 ) ) + 1;
+      	var m = Math.floor( ( Math.random() * 3 ) ) + 1;
+      
+      	for( var i = 0; i < n; i++ )
+        {
+          	var s = new Soldier( WEAPONS[ "RIFLE" ] );
+          	s.setTeam( "ATTACKER" );
+        	attackers.push( s );
+        }
+
+		for( var j = 0; j < m; j++ )
+        {
+          	var s = new Soldier( WEAPONS[ "RIFLE" ] );
+          	s.setTeam( "DEFENDER" );
+        	defenders.push( s );
+        }
+      
       	var belligerents = 	{
-          						//"ATTACKER":[],
-            					"ATTACKER":[ new Soldier( WEAPONS[ "RIFLE" ], "ATTACKER" ), new Soldier( WEAPONS[ "RIFLE" ], "ATTACKER" ) ], 
-								"DEFENDER":[ new Soldier( WEAPONS[ "RIFLE" ], "DEFENDER" ), new Soldier( WEAPONS[ "RIFLE" ], "DEFENDER" ) ] 
+            					"ATTACKER":attackers, 
+								"DEFENDER":defenders
 							};
       
       	// prototype battle.
