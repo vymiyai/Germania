@@ -3,28 +3,28 @@
 // manages all aspects of a battle, which is basically anything that is done between Escaves.
 var Theater = function( mission, origin, destination )
 {
-  	this.currentBattle 		= 0;
-  	this.playIntroduction 	= null;
-	this.playEnding 		= null;  
-  	this.battles 			= [];
+    this.currentBattle      = 0;
+    this.playIntroduction   = null;
+    this.playEnding         = null;  
+    this.battles            = [];
   
-  	this.initializeBattles = function( mission, origin, destination )
+    this.initializeBattles = function( mission, origin, destination )
     {
-    	// a function of mission, origin and destination...
+        // a function of mission, origin and destination...
       
-      	var tIntroduction = function()
+        var tIntroduction = function()
         {
-        	alert( "Theater Introduction" );
+            alert( "Theater Introduction" );
         };
       
-      	this.playIntroduction = tIntroduction;
+        this.playIntroduction = tIntroduction;
       
-      	var tEnding = function()
+        var tEnding = function()
         {
-        	alert( "Theater Ending" );
+            alert( "Theater Ending" );
         };
       
-      	this.playEnding = tEnding;
+        this.playEnding = tEnding;
       
       
       

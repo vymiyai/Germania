@@ -66,40 +66,50 @@ var Battle = function( belligerents, introduction, ending )
 
               	var targetedEnemy = targets[ targetIndex ];
               	
-              	// attack animation should go here?
-              	alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
-      		
-              	// calculate and apply damage.
-				targetedEnemy.hp -= damage;
+              	// check if soldier scored the shot.
+                if( Math.random() <= soldier.weapon.getBaseAccuracy( 0 ) )
+                {
+                    // attack animation should go here?
+                    alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
 
-              	// remove the enemy from the targets if they are dead.
-              	if( ! targetedEnemy.isAlive() )
-              	{
-                  	alert( "#" + targetIndex + " down..." );
-                  	targets.splice( targetIndex, 1 );
-              	}
-              
+                    // calculate and apply damage.
+                    targetedEnemy.hp -= damage;                    
+                }
+                else
+                {
+                    // soldier missed the shot.
+                    alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " missed." );
+                }
+
+
+                // remove the enemy from the targets if they are dead.
+                if( ! targetedEnemy.isAlive() )
+                {
+                    alert( "#" + targetIndex + " down..." );
+                    targets.splice( targetIndex, 1 );
+                }
+
 				// debug info.
-          		this.battleStatus();
+                this.battleStatus();
             
             }
-          	else
+            else
             {
-              	// soldier selection animation?
-            	alert( "Soldier dead, skipping..." );
+                // soldier selection animation?
+                alert( "Soldier dead, skipping..." );
             }
 
-          	// increment turn count.
-          	turnCount++;
+            // increment turn count.
+            turnCount++;
             
         }
       
-      	// check if the side that won was the player's.
-      	var result = true;
+        // check if the side that won was the player's.
+        var result = true;
       
-      	// return the result of the battle.
-      	// should build statistcs here...
-      	return { "result": result };
+        // return the result of the battle.
+        // should build statistcs here...
+        return { "result": result };
     };
 
   
