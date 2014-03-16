@@ -1,6 +1,6 @@
 "use strict";
 
-// manages all aspects of a battle, which is basically anything that is done between Escaves.
+// manages basically all aspects of a battle, which is basically anything that is done between Escaves.
 var Theater = function( mission, origin, destination )
 {
     this.currentBattle      = 0;
@@ -11,7 +11,7 @@ var Theater = function( mission, origin, destination )
     this.initializeBattles = function( mission, origin, destination )
     {
         // a function of mission, origin and destination...
-      
+        // cinematics for theaters should be assigned on a per mission basis...
         var tIntroduction = function()
         {
             alert( "Theater Introduction" );

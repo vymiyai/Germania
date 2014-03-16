@@ -35,6 +35,9 @@ var Battle = function( belligerents, introduction, ending )
     {
       	var turnCount = 0;
       	
+        // announce the battle initial status.
+        this.battleStatus();
+      	
       	// interate through the characters until one of the teams dies.
       	while( ! this.isBattleFinished() )
         {
