@@ -31,7 +31,7 @@ var Weapon = function( name, minimumDamage, maximumDamage, distanceDamageModifie
         var damage = variableDamage + this.minimumDamage;
         
         // return damage modified by distance.
-        return this.distanceDamageModifier( distance ) * Math.floor( damage );
+        return Math.floor( this.distanceDamageModifier( distance ) * damage );
     };
   
 };

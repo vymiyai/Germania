@@ -11,66 +11,67 @@ var Battle = function( belligerents, introduction, ending )
   	// an example of ending is the increment of the number of a specific mission completed...
   	// standard repeatable missions will most likely not have neither intro, nor ending. 
   	// campaign missions will most likely have all battles with an ending or intro.
-	this.playIntroduction 	= introduction;
-  	this.playEnding 		= ending;
+    this.playIntroduction   = introduction;
+    this.playEnding         = ending;
   
-  	// initialize with clones of the attacker and defender arrays...
-  	this.attacker = belligerents[ "ATTACKER" ].slice(0);
-  	this.defender = belligerents[ "DEFENDER" ].slice(0);
-	this.turns = this.attacker.concat( this.defender ).sort( function( s1, s2 ){ return s2.basicSpeed - s1.basicSpeed; } );
-  	this.turn = 0;
+    // initialize with clones of the attacker and defender arrays...
+    this.attacker   = belligerents[ "ATTACKER" ].slice(0);
+    this.defender   = belligerents[ "DEFENDER" ].slice(0);
+    this.turns      = this.attacker.concat( this.defender ).sort( function( s1, s2 ){ return s2.basicSpeed - s1.basicSpeed; } );
+    this.turn       = 0;
   
-  	// returns true if one of the teams has been defeated.
-  	this.isBattleFinished = function()
+    // returns true if one of the teams has been defeated.
+    this.isBattleFinished = function()
     {
-    	if( this.attacker.length == 0 || this.defender.length == 0 )
-        	return true;
-      	else
-          	return false;
+        if( this.attacker.length === 0 || this.defender.length === 0 )
+            return true;
+        else
+            return false;
     };
   
-  	
+
 	// executes the battle.
-  	this.start = function()
+    this.start = function()
     {
-      	var turnCount = 0;
-      	
+        var turnCount = 0;
+
         // announce the battle initial status.
         this.battleStatus();
-      	
-      	// interate through the characters until one of the teams dies.
-      	while( ! this.isBattleFinished() )
+
+        // interate through the characters until one of the teams dies.
+        while( ! this.isBattleFinished() )
         {
-          	// calculates the relative turn count based on the absolute turn count.
-          	this.turn = turnCount % this.turns.length;
+            // calculates the relative turn count based on the absolute turn count.
+            this.turn = turnCount % this.turns.length;
           
           
-          	var soldier = this.turns[ this.turn ];
-      		if( soldier.isAlive() )
+            var soldier = this.turns[ this.turn ];
+            if( soldier.isAlive() )
             {
-              	// choose targets based on the soldier's team.
-              	var targets;
-              	var allies;
-              	if( soldier.getTeam() == "ATTACKER" )
+                // choose targets based on the soldier's team.
+                var targets;
+                var allies;
+                if( soldier.getTeam() == "ATTACKER" )
                 {
-                  	allies = this.attacker;
-                  	targets = this.defender;
+                    allies = this.attacker;
+                    targets = this.defender;
                 }
-              	else
+                else
                 {
-                  	// soldier's team is "DEFENDER".
-                  	allies = this.defender;
-                  	targets = this.attacker;
+                    // soldier's team is "DEFENDER".
+                    allies = this.defender;
+                    targets = this.attacker;
                 }
               
-              	
-				var targetIndex = soldier.selectTarget( null, targets );
-				var damage = soldier.weapon.getBaseDamage();
+                var someDistance = 0;
 
-              	var targetedEnemy = targets[ targetIndex ];
-              	
-              	// check if soldier scored the shot.
-                if( Math.random() <= soldier.weapon.getBaseAccuracy( 0 ) )
+				var targetIndex = soldier.selectTarget( null, targets );
+				var damage = soldier.weapon.getBaseDamage( someDistance );
+
+                var targetedEnemy = targets[ targetIndex ];
+
+                // check if soldier scored the shot.
+                if( Math.random() <= soldier.weapon.getBaseAccuracy( someDistance ) )
                 {
                     // attack animation should go here?
                     alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
