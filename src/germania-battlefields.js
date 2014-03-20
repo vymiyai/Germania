@@ -4,4 +4,16 @@
 
 var BATTLEFIELDS = {};
 
-BATTLEFIELDS[ "PODISH-INCUBATOR" ] = { 0.4:["COMMERCIAL-AREA"], 0.6:[ "KONIGSBAU", "SCHLOSSPLATZ" ], 1.0:[ "COMMERCIAL-AREA" ] };
+// distance 1 battlefields.
+BATTLEFIELDS.HOUSE_TO_HOUSE = { "distance": 1 };
+BATTLEFIELDS.CLOSE_QUARTERS = { "distance": 1 };
+
+// distance 2 battlefields.
+BATTLEFIELDS.STREET_TO_STREET = { "distance": 2 };
+BATTLEFIELDS.LARGE_BUILDING = { "distance": 2 };
+
+// distance 3 battlefields.
+BATTLEFIELDS.PARK = { "distance": 3 };
+BATTLEFIELDS.MAIN_AVENUE = { "distance": 3 };
+
+//BATTLEFIELDS[ "PODISH-INCUBATOR" ] = { 0.4:["COMMERCIAL-AREA"], 0.6:[ "KONIGSBAU", "SCHLOSSPLATZ" ], 1.0:[ "COMMERCIAL-AREA" ] };

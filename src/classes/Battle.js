@@ -43,6 +43,8 @@ var Battle = function( belligerents, introduction, ending )
         {
             // calculates the relative turn count based on the absolute turn count.
             this.turn = turnCount % this.turns.length;
+            
+            // if turn = 0, activate roll tactical cards...
           
           
             var soldier = this.turns[ this.turn ];

@@ -1,6 +1,5 @@
 "use strict";
 
-
 // defines a Weapon template to be used by Soldiers.
 var Weapon = function( name, minimumDamage, maximumDamage, distanceDamageModifier, distanceAccuracyModifier )
 {
