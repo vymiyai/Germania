@@ -11,7 +11,20 @@ var THEATERS = {};
 // this global variable must not store full instances of battles...
 
 THEATERS[ "PODISH" ] = {};
-THEATERS[ "PODISH" ][ "INCUBATOR" ] = [];
+THEATERS[ "PODISH" ][ "INCUBATOR" ] = [
+    [ "AVENUE", "STREETS", "AVENUE" ],
+    [ "AVENUE", "STREETS", "LARGE_BUILDING" ],
+    [ "AVENUE", "LARGE_BUILDING", "PARK" ],
+    [ "AVENUE", "STREETS", "STREETS" ],
+    [ "AVENUE", "STREETS", "PARK" ] ];
 
+// Stadtmitte - Hauptbahnhof.
+/*
 
-THEATER[ "SUPPLY AMMO TO INCUBATOR" ] = [];
+[   MAIN-AVENUE ][  STREETS         ][  MAIN-AVENUE     ]
+[   MAIN-AVENUE ][  STREETS         ][  LARGE_BUILDING  ]
+[   MAIN-AVENUE ][  LARGE_BUILDING  ][  PARK            ]
+[   MAIN-AVENUE ][  STREETS         ][  STREETS         ]
+[   MAIN-AVENUE ][  STREETS         ][  PARK            ]
+
+*/

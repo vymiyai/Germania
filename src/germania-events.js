@@ -53,24 +53,24 @@ EVENTS[ "SCOUT MISSION" ] = new Event(
 // START MISSION - Story Mission 000
 EVENTS[ "START MISSION" ] = new Event(
 	"START MISSION",
-  	"PODISH",
+  	"STADTMITTE",
 	function( parentEscave, self )
 	{ 
-      	var location = VARIABLES[ "CURRENT LOCATION" ] == "PODISH";
+      	var location = VARIABLES[ "CURRENT LOCATION" ] == "STADTMITTE";
 		return location; 
 	}, 
 	function( parentEscave, self )
 	{
-		//alert( "SUPPLY AMMO TO INCUBATOR REGISTERED IN PODISH!" );
+		//alert( "SUPPLY AMMO TO HAUPTBAHNHOF REGISTERED IN STADTMITTE!" );
               
-		ESCAVES[ "PODISH" ].registerEvent( EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] ); 
-		ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "START MISSION" ] );
+		ESCAVES[ "STADTMITTE" ].registerEvent( EVENTS[ "SUPPLY AMMO TO HAUPTBAHNHOF" ] ); 
+		ESCAVES[ "STADTMITTE" ].unregisterEvent( EVENTS[ "START MISSION" ] );
 	} );
 
-// SUPPLY AMMO TO INCUBATOR - Story Mission 001
-EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] = new Event( 
-  	"SUPPLY AMMO TO INCUBATOR",
-  	"INCUBATOR",
+// SUPPLY AMMO TO HAUPTBAHNHOF - Story Mission 001
+EVENTS[ "SUPPLY AMMO TO HAUPTBAHNHOF" ] = new Event( 
+  	"SUPPLY AMMO TO HAUPTBAHNHOF",
+  	"HAUPTBAHNHOF",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -79,16 +79,16 @@ EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] = new Event(
     }, 
   	function( parentEscave, self )
   	{
-      	//alert( "SUPPLY AMMO TO INCUBATOR COMPLETE" );
+      	//alert( "SUPPLY AMMO TO HAUPTBAHNHOF COMPLETE" );
       
-      	ESCAVES[ "INCUBATOR" ].registerEvent( EVENTS[ "TARGET PRACTICE" ] ); 
-      	ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "SUPPLY AMMO TO INCUBATOR" ] );
+      	ESCAVES[ "HAUPTBAHNHOF" ].registerEvent( EVENTS[ "TARGET PRACTICE" ] ); 
+      	ESCAVES[ "STADTMITTE" ].unregisterEvent( EVENTS[ "SUPPLY AMMO TO HAUPTBAHNHOF" ] );
     } );
 
 // TARGET PRACTICE MISSION - Story Mission 002
 EVENTS[ "TARGET PRACTICE" ] = new Event( 
   	"TARGET PRACTICE",
-  	"INCUBATOR",
+  	"HAUPTBAHNHOF",
 	function( parentEscave, self )
   	{
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -100,14 +100,14 @@ EVENTS[ "TARGET PRACTICE" ] = new Event(
   	{ 
       	//alert( "TARGET PRACTICE COMPLETE" );
       
-      	ESCAVES[ "INCUBATOR" ].registerEvent( EVENTS[ "FIRST SCAVENGE MISSION" ] ); 
-      	ESCAVES[ "INCUBATOR" ].unregisterEvent( EVENTS[ "TARGET PRACTICE" ] );
+      	ESCAVES[ "HAUPTBAHNHOF" ].registerEvent( EVENTS[ "FIRST SCAVENGE MISSION" ] ); 
+      	ESCAVES[ "HAUPTBAHNHOF" ].unregisterEvent( EVENTS[ "TARGET PRACTICE" ] );
     } );
 
 // FIRST SCAVENGE MISSION - Story Mission 003
 EVENTS[ "FIRST SCAVENGE MISSION" ] = new Event( 
   	"FIRST SCAVENGE MISSION",
-  	"INCUBATOR",
+  	"HAUPTBAHNHOF",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -119,18 +119,18 @@ EVENTS[ "FIRST SCAVENGE MISSION" ] = new Event(
   	{ 
       	//alert( "FIRST SCAVENGE MISSION COMPLETE" );
       
-      	ESCAVES[ "INCUBATOR" ].unregisterEvent( EVENTS[ "FIRST SCAVENGE MISSION" ] ); 
-      	ESCAVES[ "INCUBATOR" ].registerEvent( EVENTS[ "SUPPLY FOOD TO PODISH" ] );
+      	ESCAVES[ "HAUPTBAHNHOF" ].unregisterEvent( EVENTS[ "FIRST SCAVENGE MISSION" ] ); 
+      	ESCAVES[ "HAUPTBAHNHOF" ].registerEvent( EVENTS[ "SUPPLY FOOD TO STADTMITTE" ] );
       
       	// enable scavenge missions.
       	for( var key in ESCAVES )
       		ESCAVES[ key ].registerEvent( EVENTS[ "SCAVENGE MISSION" ] );
     } );
 
-// SUPPLY FOOD TO PODISH - Story Mission 004
-EVENTS[ "SUPPLY FOOD TO PODISH" ] = new Event( 
-  	"SUPPLY FOOD TO PODISH",
-  	"PODISH",
+// SUPPLY FOOD TO STADTMITTE - Story Mission 004
+EVENTS[ "SUPPLY FOOD TO STADTMITTE" ] = new Event( 
+  	"SUPPLY FOOD TO STADTMITTE",
+  	"STADTMITTE",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -139,17 +139,17 @@ EVENTS[ "SUPPLY FOOD TO PODISH" ] = new Event(
     },
 	function( parentEscave, self )
   	{
-      	//alert( "SUPPLY FOOD TO PODISH COMPLETE" );
+      	//alert( "SUPPLY FOOD TO STADTMITTE COMPLETE" );
       
-      	ESCAVES[ "INCUBATOR" ].unregisterEvent( EVENTS[ "SUPPLY FOOD TO PODISH" ] ); 
-      	ESCAVES[ "PODISH" ].registerEvent( EVENTS[ "FIRST SCOUT MISSION" ] ); 
+      	ESCAVES[ "HAUPTBAHNHOF" ].unregisterEvent( EVENTS[ "SUPPLY FOOD TO STADTMITTE" ] ); 
+      	ESCAVES[ "STADTMITTE" ].registerEvent( EVENTS[ "FIRST SCOUT MISSION" ] ); 
     } );
 
 
 // FIRST SCOUT MISSION - Story Mission 005
 EVENTS[ "FIRST SCOUT MISSION" ] = new Event( 
   	"FIRST SCOUT MISSION",
-  	"PODISH",
+  	"STADTMITTE",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -161,8 +161,8 @@ EVENTS[ "FIRST SCOUT MISSION" ] = new Event(
   	{ 
       	//alert( "FIRST SCOUT MISSION COMPLETE" );
       
-      	ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "FIRST SCOUT MISSION" ] );
-      	ESCAVES[ "PODISH" ].registerEvent( EVENTS[ "HOLD THE LINE" ] );
+      	ESCAVES[ "STADTMITTE" ].unregisterEvent( EVENTS[ "FIRST SCOUT MISSION" ] );
+      	ESCAVES[ "STADTMITTE" ].registerEvent( EVENTS[ "HOLD THE LINE" ] );
       
       	// enable scout missions.
       	for( var key in ESCAVES )
@@ -172,7 +172,7 @@ EVENTS[ "FIRST SCOUT MISSION" ] = new Event(
 // HOLD THE LINE - Story Mission 006
 EVENTS[ "HOLD THE LINE" ] = new Event( 
   	"HOLD THE LINE",
-  	"PODISH",
+  	"STADTMITTE",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -184,7 +184,7 @@ EVENTS[ "HOLD THE LINE" ] = new Event(
   	{ 
       	//alert( "FIRST SCOUT MISSION COMPLETE" );
 
-      	ESCAVES[ "PODISH" ].unregisterEvent( EVENTS[ "HOLD THE LINE" ] );
+      	ESCAVES[ "STADTMITTE" ].unregisterEvent( EVENTS[ "HOLD THE LINE" ] );
       
       	alert( "END OF EXECUTION" );
     } );

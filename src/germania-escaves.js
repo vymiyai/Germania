@@ -2,5 +2,5 @@
 
 var ESCAVES = {};
 
-ESCAVES[ "PODISH" ] 	= new Escave( "PODISH" );
-ESCAVES[ "INCUBATOR" ] 	= new Escave( "INCUBATOR" );
+ESCAVES[ "STADTMITTE" ] 	= new Escave( "STADTMITTE" );
+ESCAVES[ "HAUPTBAHNHOF" ] 	= new Escave( "HAUPTBAHNHOF" );
