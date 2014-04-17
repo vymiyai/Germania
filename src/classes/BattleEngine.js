@@ -7,28 +7,31 @@
 
 var BattleEngine = function( theater )
 {
-  	this.DEFEAT 	= false;
-  	this.VICTORY 	= true;
-	this.theater 	= theater;
+    // "constants".
+    this.DEFEAT     = false;
+    this.VICTORY    = true;
+    
+	this.theater    = theater;
   
-  	this.run = function()
+    this.run = function()
     {
-      	this.theater.playIntroduction();
+        this.theater.playIntroduction();
       
-      	// iterate through each battle.
-      	for( var index = 0; index < this.theater.battles.length; index++ )
+        // iterate through each battle.
+        for( var index = 0; index < this.theater.battles.length; index++ )
         {
-          	var result = this.theater.executeBattle( index );
+            var result = this.theater.executeBattle( index );
           
-          	// if at least one of the battles resulted in defeat, return false;
-          	if( result == this.DEFEAT )
-              	// play defeat ending...?
-              	return this.DEFEAT;
+            // if at least one of the battles resulted in defeat, return false;
+            if( result == this.DEFEAT )
+                // play defeat ending...?
+                return this.DEFEAT;
         }
       
-      	this.theater.playEnding();
+        this.theater.playEnding();
       
-      	// all battles were finished successfully.
-    	return this.VICTORY;
+        // all battles were finished successfully.
+        return this.VICTORY;
     };
+    
 };

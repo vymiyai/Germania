@@ -1,13 +1,29 @@
 "use strict";
 
-var Soldier = function( weapon )
+// modifiers...?
+/*
+    Paratrooper - above average equipment
+    SS - stormtroopers/shock troopers
+    Elite
+    Veteran
+    Regular
+    Recruit
+*/
+
+var Soldier = function( stats )
 {
-    this.name       = name;
-    this.weapon     = weapon;
-    this.basicSpeed = Math.floor( ( Math.random() * 56 ) + 1 );
-    this.hp         = 56;
-    this.maxHp      = 56;
-    this.team       = "";
+    this.name       = stats.name;
+    
+    this.primary    = new Weapon( stats.primary );
+    this.secondary  = stats.secondary;
+    this.equipment1 = stats.equipment1;
+    this.equipment2 = stats.equipment2;
+    
+    this.basicSpeed = stats.getBasicSpeed();
+    this.hp         = stats.getHp();
+    this.maxHp      = stats.getMaxHp();
+    
+    this.turnBasedAbilities = stats.getTurnBasedAbilities();
 
     // default is random personality.
 	this.personality = function( statistics, targets )
@@ -26,17 +42,36 @@ var Soldier = function( weapon )
     {
         return this.hp > 0;
     };
-  
-  
-    // getter and setter for team attribute.
-    this.getTeam = function()
+    
+    
+    // abilities related methods________________________________________________
+    
+    this.addAbility = function( ability )
     {
-        return this.team;
+        this.turnBasedAbilities.push( ability );
     };
-  
-    this.setTeam = function( team )
+    
+    this.activateTurnBasedAbility = function()
     {
-        this.team = team;
+        for( var index = 0; index < this.turnBasedAbilities.length; index++ )
+        {
+            this.turnBasedAbilities[ index ]();
+        }
     };
+    
+    
+    // weapon related methods___________________________________________________
+    
+    // weapon selection function, should return the weapon with the highest damage x hit rate value between prinmary and secondary weapons.
+    this.selectWeapon = function( distance )
+    {
+        return this.primary;
+    };
+    
+    // set all needed decorators to this soldier based on the equipments' special abilities.
+    this.primary.setup( this );
+    //this.secondary.setup();
+    //this.equipment1.setup();
+    //this.equipment2.setup();
 
 };

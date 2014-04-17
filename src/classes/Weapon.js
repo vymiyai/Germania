@@ -1,18 +1,21 @@
 "use strict";
 
 // defines a Weapon template to be used by Soldiers.
-var Weapon = function( name, minimumDamage, maximumDamage, distanceDamageModifier, distanceAccuracyModifier )
+var Weapon = function( stats )
 {
     // name/class of this weapon.
-    this.name = name;
+    this.name                       = stats.name;
   
     // minimum and maximum damage of this weapon.
-	this.minimumDamage = minimumDamage;
-    this.maximumDamage = maximumDamage;
+	this.minimumDamage              = stats.minimumDamage;
+    this.maximumDamage              = stats.maximumDamage;
   
     // modifying functions based on a distance value.
-    this.distanceDamageModifier = distanceDamageModifier;
-    this.distanceAccuracyModifier = distanceAccuracyModifier;
+    this.distanceDamageModifier     = stats.distanceDamageModifier;
+    this.distanceAccuracyModifier   = stats.distanceAccuracyModifier;
+    
+    // set the item's special ability.
+    this.ability                    = stats.ability;
 
     // returns the hit probability as a function of distance.
     this.getBaseAccuracy = function( distance )
@@ -31,6 +34,11 @@ var Weapon = function( name, minimumDamage, maximumDamage, distanceDamageModifie
         
         // return damage modified by distance.
         return Math.floor( this.distanceDamageModifier( distance ) * damage );
+    };
+  
+    this.setup  = function( target )
+    {
+        this.ability( target );
     };
   
 };

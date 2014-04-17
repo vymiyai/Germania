@@ -17,8 +17,13 @@ var Battle = function( belligerents, introduction, ending )
     // initialize with clones of the attacker and defender arrays...
     this.attacker   = belligerents[ "ATTACKER" ].slice(0);
     this.defender   = belligerents[ "DEFENDER" ].slice(0);
-    this.turns      = this.attacker.concat( this.defender ).sort( function( s1, s2 ){ return s2.basicSpeed - s1.basicSpeed; } );
+    
+    // turn order is defined by basic speed.
+    this.turns      = this.attacker.concat( this.defender ).sort( function( s1, s2 ){ return s2.getSoldier().basicSpeed - s1.getSoldier().basicSpeed; } );
+    
+    // the current soldier's index in this.turns.
     this.turn       = 0;
+  
   
     // returns true if one of the teams has been defeated.
     this.isBattleFinished = function()
@@ -33,6 +38,7 @@ var Battle = function( belligerents, introduction, ending )
 	// executes the battle.
     this.start = function()
     {
+        // the counter that accumulates the number of turns that have passed.
         var turnCount = 0;
 
         // announce the battle initial status.
@@ -43,37 +49,43 @@ var Battle = function( belligerents, introduction, ending )
         {
             // calculates the relative turn count based on the absolute turn count.
             this.turn = turnCount % this.turns.length;
-            
-            var soldier = this.turns[ this.turn ];
+
+            var teamContainer   = this.turns[ this.turn ];
+            var soldier         = teamContainer.getSoldier();            
+            var soldierTeam     = teamContainer.getTeam();
+
             if( soldier.isAlive() )
             {
+                // activate turn-based ability.
+                soldier.activateTurnBasedAbility();
+                
                 // choose targets based on the soldier's team.
                 var targets;
                 var allies;
-                if( soldier.getTeam() == "ATTACKER" )
+                if( soldierTeam == "ATTACKER" )
                 {
-                    allies = this.attacker;
+                    allies  = this.attacker;
                     targets = this.defender;
                 }
                 else
                 {
                     // soldier's team is "DEFENDER".
-                    allies = this.defender;
+                    allies  = this.defender;
                     targets = this.attacker;
                 }
               
-                var someDistance = 0;
+                var someDistance = 1;
 
 				var targetIndex = soldier.selectTarget( null, targets );
-				var damage = soldier.weapon.getBaseDamage( someDistance );
+				var damage      = soldier.selectWeapon( someDistance ).getBaseDamage( someDistance );
 
-                var targetedEnemy = targets[ targetIndex ];
+                var targetedEnemy = targets[ targetIndex ].getSoldier();
 
                 // check if soldier scored the shot.
-                if( Math.random() <= soldier.weapon.getBaseAccuracy( someDistance ) )
+                if( Math.random() <= soldier.selectWeapon( someDistance ).getBaseAccuracy( someDistance ) )
                 {
                     // attack animation should go here?
-                    alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
+                    alert( soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
 
                     // calculate and apply damage.
                     targetedEnemy.hp -= damage;                    
@@ -81,7 +93,7 @@ var Battle = function( belligerents, introduction, ending )
                 else
                 {
                     // soldier missed the shot.
-                    alert( soldier.getTeam() + "'S #" + allies.indexOf( soldier ) + " missed." );
+                    alert( soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " missed." );
                 }
 
 
@@ -128,12 +140,12 @@ var Battle = function( belligerents, introduction, ending )
       
 		var attackerStatus = "[";
 		for( var i in this.attacker )
-			attackerStatus += " HP:" + this.attacker[ i ].hp;
+			attackerStatus += " HP:" + this.attacker[ i ].getSoldier().hp;
 		attackerStatus += "]";
           
 		var defenderStatus = "[";
 		for( var i in this.defender )
-			defenderStatus += " HP:" + this.defender[ i ].hp;
+			defenderStatus += " HP:" + this.defender[ i ].getSoldier().hp;
 		defenderStatus += "]";
                 
 		alert( "TURN: " + turnOrder + "\nATTACKER: " + attackerStatus + "\nDEFENDER: " + defenderStatus );

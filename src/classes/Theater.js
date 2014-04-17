@@ -1,5 +1,18 @@
 "use strict";
 
+/*
+stuff that is relevant for theaters...
+
+Encounter rate: determines the number of encounters
+small, medium, large
+
+xxx: determines the range of the number of enemies in an encounter
+squad, platoon, company
+
+Difficulty: determines the quality of the enemies
+militia, recruits, 
+*/
+
 // manages basically all aspects of a battle, which is basically anything that is done between Escaves.
 var Theater = function( mission, origin, destination )
 {
@@ -28,51 +41,49 @@ var Theater = function( mission, origin, destination )
       
       
       
-      
-      
 		// theater should take responsiblitiy of retrieving the correct battle cinematics.      
-      	var bIntroduction = function()
+        var bIntroduction = function()
         {
-        	alert( "Battle Introduction" );
+            alert( "Battle Introduction" );
         };
       
-      	var bEnding = function()
+        var bEnding = function()
         {
-        	alert( "Battle Ending" );
+            alert( "Battle Ending" );
         };
       
-      	var attackers = [];
-      	var defenders = [];
+        var attackers = [];
+        var defenders = [];
       
-      	var n = Math.floor( ( Math.random() * 3 ) ) + 1;
-      	var m = Math.floor( ( Math.random() * 3 ) ) + 1;
+        var n = Math.floor( ( Math.random() * 3 ) ) + 1;
+        var m = Math.floor( ( Math.random() * 3 ) ) + 1;
       
-      	for( var i = 0; i < n; i++ )
+        for( var i = 0; i < n; i++ )
         {
-          	var s = new Soldier( WEAPONS[ "RIFLE" ] );
-          	s.setTeam( "ATTACKER" );
-        	attackers.push( s );
+            var s = new Soldier( SOLDIERS[ "SOLDIER_01" ] );
+            var tc = new TeamContainer( s, "ATTACKER" );
+            attackers.push( tc );
         }
-
+        
+        
 		for( var j = 0; j < m; j++ )
         {
-          	var s = new Soldier( WEAPONS[ "RIFLE" ] );
-          	s.setTeam( "DEFENDER" );
-        	defenders.push( s );
+            var s = new Soldier( SOLDIERS[ "SOLDIER_02" ] );
+            var tc = new TeamContainer( s, "DEFENDER" );
+            defenders.push( tc );
         }
-      
-      	var belligerents = 	{
-            					"ATTACKER":attackers, 
+        
+        var belligerents = 	{
+                                "ATTACKER":attackers, 
 								"DEFENDER":defenders
 							};
       
-      	// prototype battle.
-      	return [ new Battle( belligerents, bIntroduction, bEnding ) ];
+        // prototype battle.
+        return [ new Battle( belligerents, bIntroduction, bEnding ) ];
     };
   
   	// initialize battles.
   	this.battles = this.initializeBattles( mission, origin, destination );
-
 
 
   

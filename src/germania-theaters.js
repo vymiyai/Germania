@@ -10,8 +10,8 @@ var THEATERS = {};
 
 // this global variable must not store full instances of battles...
 
-THEATERS[ "PODISH" ] = {};
-THEATERS[ "PODISH" ][ "INCUBATOR" ] = [
+THEATERS[ "STADTMITTE" ] = {};
+THEATERS[ "STADTMITTE" ][ "HAUPTBAHNHOF" ] = [
     [ "AVENUE", "STREETS", "AVENUE" ],
     [ "AVENUE", "STREETS", "LARGE_BUILDING" ],
     [ "AVENUE", "LARGE_BUILDING", "PARK" ],
