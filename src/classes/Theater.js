@@ -14,14 +14,14 @@ militia, recruits,
 */
 
 // manages basically all aspects of a battle, which is basically anything that is done between Escaves.
-var Theater = function( mission, origin, destination )
+var Theater = function( event, origin, destination )
 {
     this.currentBattle      = 0;
     this.playIntroduction   = null;
     this.playEnding         = null;  
     this.battles            = [];
   
-    this.initializeBattles = function( mission, origin, destination )
+    this.initializeBattles = function( event, origin, destination )
     {
         // a function of mission, origin and destination...
         // cinematics for theaters should be assigned on a per mission basis...
@@ -51,6 +51,15 @@ var Theater = function( mission, origin, destination )
         {
             alert( "Battle Ending" );
         };
+        
+        
+        
+        
+        
+        
+        
+        
+        // create the battles according to the mission, battlefields, origin and destination.
       
         var attackers = [];
         var defenders = [];
@@ -77,13 +86,25 @@ var Theater = function( mission, origin, destination )
                                 "ATTACKER":attackers, 
 								"DEFENDER":defenders
 							};
+							
+        // add Aurinko to the player's team.
+        var aurinko = new Soldier( SOLDIERS[ "AURINKO" ] );
+        var atc = new TeamContainer( aurinko, event.playerTeam );
+        belligerents[ event.playerTeam ].push( atc );
+							
+							
+							
+							
+							
+							
+							
       
         // prototype battle.
-        return [ new Battle( belligerents, bIntroduction, bEnding ) ];
+        return [ new Battle( belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
   
   	// initialize battles.
-  	this.battles = this.initializeBattles( mission, origin, destination );
+  	this.battles = this.initializeBattles( event, origin, destination );
 
 
   

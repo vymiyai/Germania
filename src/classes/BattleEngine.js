@@ -24,7 +24,7 @@ var BattleEngine = function( theater )
           
             // if at least one of the battles resulted in defeat, return false;
             if( result == this.DEFEAT )
-                // play defeat ending...?
+                // play theater defeat ending...?
                 return this.DEFEAT;
         }
       

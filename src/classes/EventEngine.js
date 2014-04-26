@@ -3,7 +3,7 @@
 // controls the flow of the events and which events should be available to each Escave.
 var EventEngine = function( variables, escaves )
 {
-  	this.variables = variables;
+  	this.variables = variables;     // is a reference to the global variable VARIABLES.
   	this.escaves = escaves;
   
   
@@ -31,8 +31,9 @@ var EventEngine = function( variables, escaves )
   	this.callBattleEngine = function( mission, origin, destination )
     {
     	//alert( "ACCOMPLISHING " + mission + ":\n\n" + origin + " -> " + destination );
+    	var event = EVENTS[ mission ];
       
-      	var theater = new Theater( mission, origin, destination );
+      	var theater = new Theater( event, origin, destination );
       	var battleEngine = new BattleEngine( theater );
       
       	// return the result of the battle.
@@ -59,6 +60,9 @@ var EventEngine = function( variables, escaves )
 				destination = self.variables[ "CURRENT LOCATION" ];
 			else
 				destination = event.destination;
+
+            // set the player's team according to the mission's playerTeam attribute.
+            self.variables[ "PLAYER TEAM" ] = event.playerTeam;
 
 			// if the combat phase was successful and the final destination is different from the origin, 
 			// set current location as the final destination.

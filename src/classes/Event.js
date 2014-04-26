@@ -3,10 +3,11 @@
 // uses global variables in the preconditions variable...
 
 // defines a game event object with preconditions.
-var Event = function( name, destination, completionCondition, callback )
+var Event = function( name, destination, playerTeam, completionCondition, callback )
 {
   	this.name 					= name;
   	this.destination			= destination;
+  	this.playerTeam             = playerTeam;
     this.completionCondition 	= completionCondition;
   	this.callback				= callback;
   
@@ -23,4 +24,5 @@ var Event = function( name, destination, completionCondition, callback )
 			return false;            	
 		}
     }
+    
 };

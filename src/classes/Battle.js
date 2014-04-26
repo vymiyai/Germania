@@ -1,6 +1,6 @@
 "use strict";
 
-var Battle = function( belligerents, introduction, ending )
+var Battle = function( belligerents, introduction, ending, playerTeam )
 {
   	// belligerents: { attacker:[], defender:[] }
   
@@ -18,6 +18,9 @@ var Battle = function( belligerents, introduction, ending )
     this.attacker   = belligerents[ "ATTACKER" ].slice(0);
     this.defender   = belligerents[ "DEFENDER" ].slice(0);
     
+    // the name of the player's team.
+    this.playerTeam = playerTeam;
+    
     // turn order is defined by basic speed.
     this.turns      = this.attacker.concat( this.defender ).sort( function( s1, s2 ){ return s2.getSoldier().basicSpeed - s1.getSoldier().basicSpeed; } );
     
@@ -33,7 +36,15 @@ var Battle = function( belligerents, introduction, ending )
         else
             return false;
     };
-  
+    
+    // returns the name of the winner team.
+    this.getWinnerTeam = function()
+    {
+        if( this.attacker.length === 0 )
+            return "DEFENDER";
+        else
+            return "ATTACKER";
+    };
 
 	// executes the battle.
     this.start = function()
@@ -120,14 +131,14 @@ var Battle = function( belligerents, introduction, ending )
         }
       
         // check if the side that won was the player's.
-        var result = true;
+        var result = this.playerTeam == this.getWinnerTeam();
       
         // return the result of the battle.
         // should build statistcs here...
         return { "result": result };
     };
 
-  
+    // temporary battle status.
   	this.battleStatus = function()
     {
       	var turnOrder = "[";
@@ -148,7 +159,7 @@ var Battle = function( belligerents, introduction, ending )
 			defenderStatus += " HP:" + this.defender[ i ].getSoldier().hp;
 		defenderStatus += "]";
                 
-		alert( "TURN: " + turnOrder + "\nATTACKER: " + attackerStatus + "\nDEFENDER: " + defenderStatus );
+		alert( "PLAYER'S TEAM: " + this.playerTeam + "\nTURN: " + turnOrder + "\nATTACKER: " + attackerStatus + "\nDEFENDER: " + defenderStatus );
     };
   
 };
