@@ -27,25 +27,30 @@ var EventEngine = function( variables, escaves )
     };
   
   
-  	// calls the battle engine to be developed in the future.
-  	this.callBattleEngine = function( mission, origin, destination )
+    // calls the battle engine to be developed in the future.
+    this.callBattleEngine = function( mission, origin, destination )
     {
-    	//alert( "ACCOMPLISHING " + mission + ":\n\n" + origin + " -> " + destination );
-    	var event = EVENTS[ mission ];
+        //alert( "ACCOMPLISHING " + mission + ":\n\n" + origin + " -> " + destination );
+        var event = EVENTS[ mission ];
       
-      	var theater = new Theater( event, origin, destination );
-      	var battleEngine = new BattleEngine( theater );
+        var theater = new Theater( event, origin, destination );
+
+        /*
+        var battleEngine = new BattleEngine( theater );
       
-      	// return the result of the battle.
-      	return battleEngine.run();
+        // return the result of the battle.
+        return battleEngine.run();
+        */
+
+        return theater.run();
     };
   
 	//___________________________________________________________________
   
-  	// returns a function that will be the handler of the Escave menu button.
-  	this.gethandler = function( event )
+    // returns a function that will be the handler of the Escave menu button.
+    this.gethandler = function( event )
     {
-      	var self = this;
+        var self = this;
       
 		return function()
 		{
@@ -54,7 +59,7 @@ var EventEngine = function( variables, escaves )
 			self.variables[ "CURRENT MISSION" ] = mission;
     
 			// define the proper destination name and the origin.
-          	var origin = self.variables[ "CURRENT LOCATION" ];
+            var origin = self.variables[ "CURRENT LOCATION" ];
 			var destination = "";
 			if( event.destination == "SELF" )
 				destination = self.variables[ "CURRENT LOCATION" ];
@@ -70,15 +75,16 @@ var EventEngine = function( variables, escaves )
           
 			if( missionSuccessful )
 			{
+                alert( "MISSION SUCCESSFUL..." );
 				if( event.destination != "SELF" )
 					self.variables[ "CURRENT LOCATION" ] = destination;
 			}
 			else
 			{
 				alert( "MISSION FAILED..." );
-              	// apply penalisties here...
+                // apply penalisties here...
 			}
-                              
+
 			// regardless if the player succeeded in the mission, refresh the mission menu.
 			self.missionMenu();
 		};

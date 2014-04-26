@@ -20,6 +20,15 @@ var Theater = function( event, origin, destination )
     this.playIntroduction   = null;
     this.playEnding         = null;  
     this.battles            = [];
+    
+    // "constants".
+    this.DEFEAT     = false;
+    this.VICTORY    = true;
+  
+  
+  
+  
+  
   
     this.initializeBattles = function( event, origin, destination )
     {
@@ -51,12 +60,6 @@ var Theater = function( event, origin, destination )
         {
             alert( "Battle Ending" );
         };
-        
-        
-        
-        
-        
-        
         
         
         // create the battles according to the mission, battlefields, origin and destination.
@@ -91,14 +94,9 @@ var Theater = function( event, origin, destination )
         var aurinko = new Soldier( SOLDIERS[ "AURINKO" ] );
         var atc = new TeamContainer( aurinko, event.playerTeam );
         belligerents[ event.playerTeam ].push( atc );
-							
-							
-							
-							
-							
-							
-							
-      
+
+
+
         // prototype battle.
         return [ new Battle( belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
@@ -108,35 +106,75 @@ var Theater = function( event, origin, destination )
 
 
   
-  	this.callMenu = function( result )
-    {
-    	// a menu that may be spawned after a battle, such as match statistics...
-      	alert( "SHOWING MATCH STATISTICS..." );
-    };
   
-  	this.executeBattle = function( index )
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+    this.run = function()
     {
-      	var battle = this.battles[ index ];
+        this.playIntroduction();
       
-      	battle.playIntroduction();
-      
-    	var results = this.battles[ index ].start();
-      
-      	this.callMenu( results );
-      
-      	if( results[ "result" ] == true )
+        // iterate through each battle.
+        for( var index = 0; index < this.battles.length; index++ )
         {
-          	// enable next battle.
-        	this.currentBattle++;
-          	battle.playEnding();
-        }
-      	else
-        {
-        	// play defeat battle ending?
+            var result = this.executeBattle( index );
+          
+            // if at least one of the battles resulted in defeat, return false;
+            if( result == this.DEFEAT )
+                // play theater defeat ending...?
+                return this.DEFEAT;
         }
       
-      	// return the final result to the battle engine.
-      	return results[ "result" ];
+        this.playEnding();
+      
+        // all battles were finished successfully.
+        return this.VICTORY;
+    };
+    
+  
+    this.executeBattle = function( index )
+    {
+        var battle = this.battles[ index ];
+      
+        battle.playIntroduction();
+      
+        var battleStatistics = this.battles[ index ].start();
+      
+        this.callMenu( battleStatistics );
+      
+        if( battleStatistics[ "result" ] == true )
+        {
+            // enable next battle.
+            this.currentBattle++;
+            battle.playEnding();
+        }
+        else
+        {
+            // play defeat battle ending?
+        }
+      
+        // return the final result to the battle engine.
+        return battleStatistics[ "result" ];
+    };
+
+
+    this.callMenu = function( result )
+    {
+        // a menu that may be spawned after a battle, such as match statistics...
+        alert( "SHOWING MATCH STATISTICS..." );
     };
 
 };
