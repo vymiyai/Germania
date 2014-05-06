@@ -91,8 +91,8 @@ var EventEngine = function( variables, escaves )
     };
   
   
-  	// returns whether further event resolutions are needed.
-  	this.needToKeepResolving = function()
+    // returns whether further event resolutions are needed.
+    this.needToKeepResolving = function()
 	{
 		for( var key in this.escaves )
 		{	
@@ -104,7 +104,7 @@ var EventEngine = function( variables, escaves )
 	};
   
 
-  	// resolves all events until there are no events to be added or removed.
+    // resolves all events until there are no events to be added or removed.
 	this.enterEscave = function()
 	{
 		do
@@ -116,18 +116,18 @@ var EventEngine = function( variables, escaves )
 	};
   
   
-  	// main public method.
-  	// updates the mission menu in the current Escave.
+    // main public method.
+    // updates the mission menu in the current Escave.
 	this.missionMenu = function() 
 	{
-      	// resolve events.
+        // resolve events.
 		this.enterEscave();
       
-      	// reset the current mission, as the player will be at the Escave.
+        // reset the current mission, as the player will be at the Escave.
 		this.variables[ "CURRENT MISSION" ] = "";
       
-      	// erase and rebuild the menu.
-      	var menu = $( '#menu' );
+        // erase and rebuild the menu.
+        var menu = $( '#menu' );
 		this.clearMenu( menu );
               
 		// get current Escave and show active events.
@@ -135,7 +135,12 @@ var EventEngine = function( variables, escaves )
               
 		for( var index = 0; index < escave.activeEvents.length; index++ )
 		{
-          	// generate an event handler to be assigned to the menu buttons. 
+            // generate the random modifiers for this mission.
+        
+        
+        
+        
+            // generate an event handler to be assigned to the menu buttons. 
 			var event = escave.activeEvents[ index ];
 			var handler = this.gethandler( event );
                   

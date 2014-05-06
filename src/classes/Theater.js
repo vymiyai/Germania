@@ -22,17 +22,24 @@ var Theater = function( event, origin, destination )
     this.battles            = [];
     
     // "constants".
-    this.DEFEAT     = false;
-    this.VICTORY    = true;
+    this.DEFEAT             = false;
+    this.VICTORY            = true;
   
-  
-  
-  
-  
-  
+    this.getTheaterBattlefields = function( origin, destination )
+    {
+        alert( origin + " -> " + destination );
+        
+        return $.extend( {}, THEATERS[ origin ][ destination ] );
+        
+    };
+    
     this.initializeBattles = function( event, origin, destination )
     {
         // a function of mission, origin and destination...
+        var battlefields = this.getTheaterBattlefields( origin, destination );
+        
+        alert( JSON.stringify( battlefields ) );
+        
         // cinematics for theaters should be assigned on a per mission basis...
         var tIntroduction = function()
         {
@@ -63,7 +70,6 @@ var Theater = function( event, origin, destination )
         
         
         // create the battles according to the mission, battlefields, origin and destination.
-      
         var attackers = [];
         var defenders = [];
       
@@ -103,6 +109,7 @@ var Theater = function( event, origin, destination )
   
   	// initialize battles.
   	this.battles = this.initializeBattles( event, origin, destination );
+
 
 
   
@@ -151,7 +158,7 @@ var Theater = function( event, origin, destination )
       
         battle.playIntroduction();
       
-        var battleStatistics = this.battles[ index ].start();
+        var battleStatistics = battle.start();
       
         this.callMenu( battleStatistics );
       

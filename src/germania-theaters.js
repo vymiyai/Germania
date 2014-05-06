@@ -11,12 +11,21 @@ var THEATERS = {};
 // this global variable must not store full instances of battles...
 
 THEATERS[ "STADTMITTE" ] = {};
+THEATERS[ "STADTMITTE" ][ "STADTMITTE" ] = [
+    [ "AVENUE", "STREETS", "AVENUE" ] ];
+    
 THEATERS[ "STADTMITTE" ][ "HAUPTBAHNHOF" ] = [
     [ "AVENUE", "STREETS", "AVENUE" ],
     [ "AVENUE", "STREETS", "LARGE_BUILDING" ],
     [ "AVENUE", "LARGE_BUILDING", "PARK" ],
     [ "AVENUE", "STREETS", "STREETS" ],
     [ "AVENUE", "STREETS", "PARK" ] ];
+
+THEATERS[ "HAUPTBAHNHOF" ] = {};    
+THEATERS[ "HAUPTBAHNHOF" ][ "HAUPTBAHNHOF" ] = [
+    [ "AVENUE", "STREETS", "PARK" ] ];
+
+THEATERS[ "HAUPTBAHNHOF" ][ "STADTMITTE" ] = $.extend( {}, THEATERS[ "STADTMITTE" ][ "HAUPTBAHNHOF" ] ).reverse();
 
 // Stadtmitte - Hauptbahnhof.
 /*

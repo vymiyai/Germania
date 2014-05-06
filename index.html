@@ -1,65 +1,69 @@
 <!DOCTYPE HTML>
 <html lang="en">
-<head>
-  	<meta charset="UTF-8" />
-	<title>Aurinko Project</title>
-  	<!--
-  	<script src='../Germania/lib/quintus-all.min.js'></script>
-	
-  	<style>
-		canvas { background-color:black; }
-  	</style>
-	-->
-
-  	<!-- application logic -->
-  	<!--
-	<script src='src/germania-core.js'></script>
-	-->
-  
-    <!-- utility object files -->
-  	<script src='src/classes/Event.js'></script>
-  	<script src='src/classes/Profiler.js'></script>
-  	<script src='src/classes/ProfilerHelper.js'></script>
-  	<script src='src/classes/Escave.js'></script>
-  	<script src='src/classes/EventEngine.js'></script>
-  
-    <script src='src/classes/Battle.js'></script>
-    <script src='src/classes/Theater.js'></script>
-  
-  	<script src='src/classes/Weapon.js'></script>
-  	<script src='src/classes/Soldier.js'></script>
-  	
-  	<script src='src/classes/TeamContainer.js'></script>
-  
-  	<!-- configuration file -->
-  	<script src='src/germania-config.js'></script>
-  
-  	<!-- Germania project specific files -->
-  	<script src='src/germania-script.js'></script>
-  	<script src='src/germania-variables.js'></script>
-  	<script src='src/germania-events.js'></script>
-  	<script src='src/germania-escaves.js'></script>
-  	<script src='src/germania-weapons.js'></script>
-  	<script src='src/germania-soldiers.js'></script>
-  	<script src='src/germania-abilities.js'></script>
-  
-  	<!-- include jquery for development purposes... -->  
-  	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-</head>
-<body>
-  	<div id="menu">
-      	<input id="newGameButton" type="button" value="NEW GAME" />
-  	</div>
-  	<script>
-      	"use strict";
+    <head>
+      	<meta charset="UTF-8" />
+    	<title>Aurinko Project</title>
+      	<!--
+      	<script src='../Germania/lib/quintus-all.min.js'></script>
+    	
+      	<style>
+    		canvas { background-color:black; }
+      	</style>
+    	-->
+    
+      	<!-- application logic -->
+      	<!--
+    	<script src='src/germania-core.js'></script>
+    	-->
       
-      	// set default event.
-      	ESCAVES[ "STADTMITTE" ].activeEvents = [ EVENTS[ "START MISSION" ] ];
+        <!-- utility object files -->
+      	<script src='src/classes/Event.js'></script>
+      	<script src='src/classes/Profiler.js'></script>
+      	<script src='src/classes/ProfilerHelper.js'></script>
+      	<script src='src/classes/Escave.js'></script>
+      	<script src='src/classes/EventEngine.js'></script>
       
-      	// initialize the first menu button.
-      	var EVENT_ENGINE = new EventEngine( VARIABLES, ESCAVES );
-      	var updateMenu = function(){ EVENT_ENGINE.missionMenu(); };
-      	$( "#newGameButton" ).click( updateMenu );
-  	</script>
-</body>
+        <script src='src/classes/Battle.js'></script>
+        <script src='src/classes/Theater.js'></script>
+      
+      	<script src='src/classes/Weapon.js'></script>
+      	<script src='src/classes/Soldier.js'></script>
+      	
+      	<script src='src/classes/TeamContainer.js'></script>
+      
+      	<!-- configuration file -->
+      	<script src='src/germania-config.js'></script>
+      
+      	<!-- Germania project specific files -->
+      	<script src='src/germania-script.js'></script>
+      	<script src='src/germania-variables.js'></script>
+      	<script src='src/germania-events.js'></script>
+      	<script src='src/germania-escaves.js'></script>
+      	
+      	<script src='src/germania-weapons.js'></script>
+      	<script src='src/germania-soldiers.js'></script>
+      	<script src='src/germania-abilities.js'></script>
+      	
+      	<script src='src/germania-theaters.js'></script>
+      	<script src='src/germania-battlefields.js'></script>
+      
+      	<!-- include jquery for development purposes... -->  
+      	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    </head>
+    <body>
+      	<div id="menu">
+          	<input id="newGameButton" type="button" value="NEW GAME" />
+      	</div>
+      	<script>
+          	"use strict";
+          
+          	// set default event.
+          	ESCAVES[ "STADTMITTE" ].activeEvents = [ EVENTS[ "START MISSION" ] ];
+          
+          	// initialize the first menu button.
+          	var EVENT_ENGINE = new EventEngine( VARIABLES, ESCAVES );
+          	var updateMenu = function(){ EVENT_ENGINE.missionMenu(); };
+          	$( "#newGameButton" ).click( updateMenu );
+      	</script>
+    </body>
 </html>

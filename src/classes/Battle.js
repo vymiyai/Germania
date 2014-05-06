@@ -106,8 +106,7 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
                     // soldier missed the shot.
                     alert( soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " missed." );
                 }
-
-
+                
                 // remove the enemy from the targets if they are dead.
                 if( ! targetedEnemy.isAlive() )
                 {
