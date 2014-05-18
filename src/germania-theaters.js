@@ -25,7 +25,13 @@ THEATERS[ "HAUPTBAHNHOF" ] = {};
 THEATERS[ "HAUPTBAHNHOF" ][ "HAUPTBAHNHOF" ] = [
     [ "AVENUE", "STREETS", "PARK" ] ];
 
-THEATERS[ "HAUPTBAHNHOF" ][ "STADTMITTE" ] = $.extend( {}, THEATERS[ "STADTMITTE" ][ "HAUPTBAHNHOF" ] ).reverse();
+THEATERS[ "HAUPTBAHNHOF" ][ "STADTMITTE" ] = [
+    [ "AVENUE", "STREETS", "PARK" ],
+    [ "AVENUE", "STREETS", "STREETS" ],
+    [ "AVENUE", "LARGE_BUILDING", "PARK" ],
+    [ "AVENUE", "STREETS", "LARGE_BUILDING" ],
+    [ "AVENUE", "STREETS", "AVENUE" ]
+    ];
 
 // Stadtmitte - Hauptbahnhof.
 /*

@@ -1,5 +1,6 @@
 "use strict";
 
+
 // values indicate x to y battlefields. For y to x, sort the random rolled values into reverse order...
 
 var BATTLEFIELDS = {};

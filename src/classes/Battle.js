@@ -68,7 +68,7 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
             if( soldier.isAlive() )
             {
                 // activate turn-based ability.
-                soldier.activateTurnBasedAbility();
+                //soldier.activateTurnBasedAbility();
                 
                 // choose targets based on the soldier's team.
                 var targets;
@@ -96,7 +96,7 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
                 if( Math.random() <= soldier.selectWeapon( someDistance ).getBaseAccuracy( someDistance ) )
                 {
                     // attack animation should go here?
-                    alert( soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
+                    alert( this.soldierStatus( soldier ) + "\n\n" + soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
 
                     // calculate and apply damage.
                     targetedEnemy.hp -= damage;                    
@@ -160,5 +160,11 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
                 
 		alert( "PLAYER'S TEAM: " + this.playerTeam + "\nTURN: " + turnOrder + "\nATTACKER: " + attackerStatus + "\nDEFENDER: " + defenderStatus );
     };
-  
+    
+    
+    this.soldierStatus = function( soldier )
+    {
+        return "NAME: " + soldier.name + "\n" + "PRIMARY: " + soldier.primary.name + "\n" + "SECONDARY: " + soldier.secondary.name + "\n" + "BASIC SPEED: " + soldier.getBasicSpeed();
+    };
+    
 };
