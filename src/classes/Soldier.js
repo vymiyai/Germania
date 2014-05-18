@@ -48,14 +48,14 @@ var Soldier = function( stats )
     
     // getters__________________________________________________________________
     
-    this.getCurrentHP = function()
-    {
-        return this.hp;
-    };
-    
     this.getBasicSpeed = function()
     {
         return this.basicSpeed + this.bonuses[ "BASIC_SPEED" ];
+    };
+    
+    this.getCurrentHP = function()
+    {
+        return this.hp;
     };
     
     this.getMaxHP = function()

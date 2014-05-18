@@ -23,8 +23,6 @@ var Weapon = function( stats )
     // the items' bonuses to be applied.
     this.bonuses                    = stats.bonuses;
 
-
-
     // return the weapon's type.
     this.getWeaponType = function()
     {
@@ -69,8 +67,9 @@ var Weapon = function( stats )
         
         for( var attributeName in this.bonuses )
         {
-            soldierBonuses[ attributeName ] -= this.bonuses[ attributeName ];
+            soldierBonuses[ attributeName ] += this.bonuses[ attributeName ];
         }
+        
     };
   
 };
