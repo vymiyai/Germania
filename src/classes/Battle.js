@@ -20,13 +20,9 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
     
     // the name of the player's team.
     this.playerTeam = playerTeam;
-    
-    // turn order is defined by basic speed.
-    this.turns      = this.attacker.concat( this.defender ).sort( function( s1, s2 ){ return s2.getSoldier().basicSpeed - s1.getSoldier().basicSpeed; } );
-    
+
     // the current soldier's index in this.turns.
     this.turn       = 0;
-  
   
     // returns true if one of the teams has been defeated.
     this.isBattleFinished = function()
@@ -45,6 +41,11 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
         else
             return "ATTACKER";
     };
+    
+    
+    
+    
+    
 
 	// executes the battle.
     this.start = function()
@@ -55,80 +56,10 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
         // announce the battle initial status.
         this.battleStatus();
 
-        // interate through the characters until one of the teams dies.
-        while( ! this.isBattleFinished() )
-        {
-            // calculates the relative turn count based on the absolute turn count.
-            this.turn = turnCount % this.turns.length;
 
-            var teamContainer   = this.turns[ this.turn ];
-            var soldier         = teamContainer.getSoldier();            
-            var soldierTeam     = teamContainer.getTeam();
+        // calculos aqui...
 
-            if( soldier.isAlive() )
-            {
-                // activate turn-based ability.
-                //soldier.activateTurnBasedAbility();
-                
-                // choose targets based on the soldier's team.
-                var targets;
-                var allies;
-                if( soldierTeam == "ATTACKER" )
-                {
-                    allies  = this.attacker;
-                    targets = this.defender;
-                }
-                else
-                {
-                    // soldier's team is "DEFENDER".
-                    allies  = this.defender;
-                    targets = this.attacker;
-                }
-              
-                var someDistance = 1;
 
-				var targetIndex = soldier.selectTarget( null, targets );
-				var damage      = soldier.selectWeapon( someDistance ).getBaseDamage( someDistance );
-
-                var targetedEnemy = targets[ targetIndex ].getSoldier();
-
-                // check if soldier scored the shot.
-                if( Math.random() <= soldier.selectWeapon( someDistance ).getBaseAccuracy( someDistance ) )
-                {
-                    // attack animation should go here?
-                    alert( this.soldierStatus( soldier ) + "\n\n" + soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " shoots " + "ENEMY'S #" + targetIndex + " - DAMAGE: " + damage +"..."  );
-
-                    // calculate and apply damage.
-                    targetedEnemy.hp -= damage;                    
-                }
-                else
-                {
-                    // soldier missed the shot.
-                    alert( soldierTeam + "'S #" + allies.indexOf( teamContainer ) + " missed." );
-                }
-                
-                // remove the enemy from the targets if they are dead.
-                if( ! targetedEnemy.isAlive() )
-                {
-                    alert( "#" + targetIndex + " down..." );
-                    targets.splice( targetIndex, 1 );
-                }
-
-				// debug info.
-                this.battleStatus();
-            
-            }
-            else
-            {
-                // soldier selection animation?
-                alert( "Soldier dead, skipping..." );
-            }
-
-            // increment turn count.
-            turnCount++;
-            
-        }
-      
         // check if the side that won was the player's.
         var result = this.playerTeam == this.getWinnerTeam();
       
@@ -138,33 +69,45 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
     };
 
     // temporary battle status.
-  	this.battleStatus = function()
+    this.battleStatus = function()
     {
-      	var turnOrder = "[";
-      	for( var turn in this.turns )
-          	if( turn == this.turn )
-              	turnOrder += "O";
-          	else
-              	turnOrder += "=";
-      	turnOrder += "]";
-      
-		var attackerStatus = "[";
+		var attackerStatus = "";
 		for( var i in this.attacker )
-			attackerStatus += " HP:" + this.attacker[ i ].getSoldier().hp;
-		attackerStatus += "]";
+		{
+            var soldier = this.attacker[ i ].getSoldier();
+			attackerStatus +=   "Name: " + soldier.getName() + 
+                                "\nAP-DAM: " + soldier.getAntiPersonnelDamage() + 
+                                "\nAT-DAM: " + soldier.getAntiTankDamage() + 
+                                "\nACC: " + soldier.getAccuracy() + 
+                                "\nRoF: " + soldier.getRateOfFire() + 
+                                "\nM: " + soldier.getMovement() + 
+                                "\nHP:" + soldier.getHitPoints() +
+                                "\nPrimary:" + soldier.getPrimary() +
+                                "\nSecondary:" + soldier.getSecondary() +
+                                "\nMaximum HP:" + soldier.getMaxHp() +
+                                "\nCurrent HP:" + soldier.getCurrentHp() +
+                                "\n\n";
+		}
           
-		var defenderStatus = "[";
+		var defenderStatus = "";
 		for( var i in this.defender )
-			defenderStatus += " HP:" + this.defender[ i ].getSoldier().hp;
-		defenderStatus += "]";
+		{
+            var soldier = this.defender[ i ].getSoldier();
+			defenderStatus +=   "Name: " + soldier.getName() + 
+                                "\nAP-DAM: " + soldier.getAntiPersonnelDamage() + 
+                                "\nAT-DAM: " + soldier.getAntiTankDamage() + 
+                                "\nACC: " + soldier.getAccuracy() + 
+                                "\nRoF: " + soldier.getRateOfFire() + 
+                                "\nM: " + soldier.getMovement() + 
+                                "\nHP:" + soldier.getHitPoints() +
+                                "\nPrimary:" + soldier.getPrimary() +
+                                "\nSecondary:" + soldier.getSecondary() +
+                                "\nMaximum HP:" + soldier.getMaxHp() +
+                                "\nCurrent HP:" + soldier.getCurrentHp() +
+                                "\n\n";
+		}
                 
-		alert( "PLAYER'S TEAM: " + this.playerTeam + "\nTURN: " + turnOrder + "\nATTACKER: " + attackerStatus + "\nDEFENDER: " + defenderStatus );
-    };
-    
-    
-    this.soldierStatus = function( soldier )
-    {
-        return "NAME: " + soldier.name + "\n" + "PRIMARY: " + soldier.primary.name + "\n" + "SECONDARY: " + soldier.secondary.name + "\n" + "BASIC SPEED: " + soldier.getBasicSpeed();
+		alert( "PLAYER'S TEAM: " + this.playerTeam + "\nATTACKER:\n" + attackerStatus + "\n\nDEFENDER:\n" + defenderStatus );
     };
     
 };

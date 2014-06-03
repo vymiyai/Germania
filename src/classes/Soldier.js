@@ -15,55 +15,36 @@ Soldiers tem que ter um atributo que contem um mapa de atributos para valores.
 Esses valores devem ser usados pra adicao de bonus ou penalidades e devem ser considerados em praticamente qualquer item... Especialmente equips.
 
 O uso de getters e setters sera fortemente encorajado atraves disto...
+
+Atributos variam de 1 a 5.
 */
 
 var Soldier = function( stats )
 {
-    this.name       = stats.name;
+    this.name           = stats.name;
     
-    this.bonuses    = { BASIC_SPEED: 0, MAXIMUM_HP: 0 };
-    
-    this.primary    = new Weapon( stats.primary );
-    this.secondary  = new Weapon( stats.secondary );
-    this.equipment1 = stats.equipment1;
-    this.equipment2 = stats.equipment2;
-    
-    this.basicSpeed = stats.getBasicSpeed();
-    this.hp         = stats.getHp();
-    this.maxHp      = stats.getMaxHp();
-    
-    //this.turnBasedAbilities = stats.getTurnBasedAbilities();
+    this.soldierClass   = stats.soldierClass;
 
+    this.apDam          = stats.apDam;      // anti-personnel damage.
+    this.atDam          = stats.atDam;      // anti-tank damage.
+    this.acc            = stats.acc;        // accuracy.
+    this.rof            = stats.rof;        // rate of fire.
+    this.m              = stats.m;          // movement.
+    this.hp             = stats.hp;         // hit points.
+    
+    this.maxHp          = this.hp * (10 + this.hp * 2);
+    this.currentHp      = this.maxHp;
+    
+
+    this.primary        = stats.primary;
+    this.secondary      = stats.secondary;
+    
     // returns true if the character has more than 0 HP.
     this.isAlive = function()
     {
-        return this.hp > 0;
+        return this.currentHp > 0;
     };
     
-    // returns the bonuses map.
-    this.getBonuses = function()
-    {
-        return this.bonuses;
-    };
-    
-    // getters__________________________________________________________________
-    
-    this.getBasicSpeed = function()
-    {
-        return this.basicSpeed + this.bonuses[ "BASIC_SPEED" ];
-    };
-    
-    this.getCurrentHP = function()
-    {
-        return this.hp;
-    };
-    
-    this.getMaxHP = function()
-    {
-        return this.maxHp + this.bonuses[ "MAXIMUM_HP" ];
-    };
-
-
     // personality-based methods________________________________________________
 
     // default is random personality.
@@ -78,51 +59,70 @@ var Soldier = function( stats )
         return this.personality( statistics, targets );
     };
     
+    // getters__________________________________________________________________
     
-    // abilities related methods________________________________________________
-    /*
-    this.addAbility = function( ability )
+    this.getName = function()
     {
-        this.turnBasedAbilities.push( ability );
+        return this.name;
     };
     
-    this.activateTurnBasedAbility = function()
+    this.getSoldierClass = function()
     {
-        for( var index = 0; index < this.turnBasedAbilities.length; index++ )
-        {
-            this.turnBasedAbilities[ index ]();
-        }
+        return this.soldierClass;
     };
-    */
     
-    // weapon and equipment related methods___________________________________________________
+    this.getAntiPersonnelDamage = function()
+    {
+        return this.apDam;
+    };
     
-    // weapon selection function, should return the weapon with the highest damage x hit rate value between prinmary and secondary weapons.
-    this.selectWeapon = function( distance )
+    this.getAntiTankDamage = function()
+    {
+        return this.atDam;
+    };
+    
+    this.getAccuracy = function()
+    {
+        return this.acc;
+    };
+    
+    this.getRateOfFire = function()
+    {
+        return this.rof;
+    };
+    
+    this.getMovement = function()
+    {
+        return this.m;
+    };
+    
+    this.getHitPoints = function()
+    {
+        return this.hp;
+    };
+    
+    
+    
+    this.getMaxHp = function()
+    {
+        return this.maxHp;
+    };
+    
+    this.getCurrentHp = function()
+    {
+        return this.currentHp;
+    };
+    
+
+
+    this.getPrimary = function()
     {
         return this.primary;
     };
     
-    this.equip = function()
+    this.getSecondary = function()
     {
-        this.primary.onEquip( this );
-        this.secondary.onEquip( this );
-        /*
-        this.equipment1.onEquip( this );
-        this.equipment2.onEquip( this );        
-        */
+        return this.secondary;
     };
     
-    this.unequip = function()
-    {
-        this.primary.onUnequip( this );
-        this.secondary.onUnequip( this );
-        /*
-        this.equipment1.onUnequip( this );
-        this.equipment2.onUnequip( this );        
-        */
-    };
-    
-    this.equip();
-
 };

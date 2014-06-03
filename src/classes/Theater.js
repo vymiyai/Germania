@@ -70,39 +70,64 @@ var Theater = function( event, origin, destination )
         
         
         // create the battles according to the mission, battlefields, origin and destination.
-        var attackers = [];
-        var defenders = [];
-      
-        var n = Math.floor( ( Math.random() * 3 ) ) + 1;
-        var m = Math.floor( ( Math.random() * 3 ) ) + 1;
-      
-        for( var i = 0; i < n; i++ )
+        var belligerents =  { "ATTACKER":[], "DEFENDER":[] };
+        
+        var numberOfEnemies = 8;
+        var numberOfSMGunners = Math.floor( Math.random() * 8 );
+        var numberOfRifleman = numberOfEnemies - numberOfSMGunners;
+        
+        
+        // populate the enemy's team.
+        var i = 0;
+        if( event.playerTeam == "ATTACKER" )
         {
-            var s = new Soldier( SOLDIERS[ "SOLDIER_01" ] );
-            var tc = new TeamContainer( s, "ATTACKER" );
-            attackers.push( tc );
+            for( i = 0; i < numberOfRifleman; i++ )
+                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ], "DEFENDER" ) ) );
+            
+            for( i = 0; i < numberOfSMGunners; i++ )
+                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ], "DEFENDER" ) ) );
+        }
+        else
+        {
+            for( i = 0; i < numberOfRifleman; i++ )
+                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ], "ATTACKER" ) ) );
+            
+            for( i = 0; i < numberOfSMGunners; i++ )
+                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ], "ATTACKER" ) ) );
         }
         
         
-		for( var j = 0; j < m; j++ )
-        {
-            var s = new Soldier( SOLDIERS[ "SOLDIER_02" ] );
-            var tc = new TeamContainer( s, "DEFENDER" );
-            defenders.push( tc );
-        }
         
-        var belligerents = 	{
-                                "ATTACKER":attackers, 
-								"DEFENDER":defenders
-							};
-							
         // add Aurinko to the player's team.
         var aurinko = new Soldier( SOLDIERS[ "AURINKO" ] );
         var atc = new TeamContainer( aurinko, event.playerTeam );
         belligerents[ event.playerTeam ].push( atc );
-
-
-
+        
+        // add Valtion to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "VALTION" ], event.playerTeam ) ) );
+        
+        // add Steyr to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "STEYR" ], event.playerTeam ) ) );
+        
+        // add Mannlicher to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MANNLICHER" ], event.playerTeam ) ) );
+        
+        // add Grossfuss to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "GROSSFUSS" ], event.playerTeam ) ) );
+        
+        // add Mauser to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MAUSER" ], event.playerTeam ) ) );
+        
+        // add Schneider to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SCHNEIDER" ], event.playerTeam ) ) );
+        
+        // add Solothurn to the player's team.
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SOLOTHURN" ], event.playerTeam ) ) );
+        
+        
+        
+        
+        
         // prototype battle.
         return [ new Battle( belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
