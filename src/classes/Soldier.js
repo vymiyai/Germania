@@ -71,37 +71,44 @@ var Soldier = function( stats )
         return this.soldierClass;
     };
     
-    this.getAntiPersonnelDamage = function()
+    this.getAntiPersonnelDamage = this.apDam = function()
     {
         return this.apDam;
     };
     
-    this.getAntiTankDamage = function()
+    this.getAntiTankDamage = this.atDam = function()
     {
         return this.atDam;
     };
     
-    this.getAccuracy = function()
+    this.getAccuracy = this.acc = function()
     {
         return this.acc;
     };
     
-    this.getRateOfFire = function()
+    this.getRateOfFire = this.rof = function()
     {
         return this.rof;
     };
     
-    this.getMovement = function()
+    this.getMovement = this.m = function()
     {
         return this.m;
     };
     
-    this.getHitPoints = function()
+    this.getHitPoints = this.hp = function()
     {
         return this.hp;
     };
     
-    
+    this.applyDamage = function( damage )
+	{
+		this.currentHp -= damage;
+		if( this.getCurrentHp() < 0 )
+			this.currentHp = 0;
+	};
+   
+
     
     this.getMaxHp = function()
     {
@@ -124,5 +131,6 @@ var Soldier = function( stats )
     {
         return this.secondary;
     };
-    
+
+
 };

@@ -74,6 +74,32 @@ var Theater = function( event, origin, destination )
 
 		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
 
+		var attackerReport = "";
+		for( var attackerSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.ATTACKER )
+			for( var attackerAttributeName in attackerSoldierClass )
+				for( var attackerSoldier in belligerents.ATTACKER )
+				{
+					var as = belligerents.ATTACKER[ attackerSoldier ];
+					attackerReport += as.getName() + " - " + as.attackerAttributeName() + ":";
+					attackerReport += attackerSoldierClass[ attackerAttributeName ];
+					attackerReport += "\n";
+				}
+
+		alert( attackerReport );
+
+		var defenderReport = "";
+		for( var defenderSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.DEFENDER )
+			for( var defenderAttributeName in defenderSoldierClass )
+				for( var defenderSoldier in belligerents.DEFENDER )
+				{
+					var ds = belligerents.DEFENDER[ defenderSoldier ];
+					defenderReport += ds.getName() + " - " + ds.defenderAttributeName() + ":";
+					defenderReport += defenderSoldierClass[ defenderAttributeName ];
+					defenderReport += "\n";
+				}
+
+		alert( defenderReport );
+
         var numberOfEnemies = 8;
         var numberOfSMGunners = Math.floor( Math.random() * 8 );
         var numberOfRifleman = numberOfEnemies - numberOfSMGunners;
