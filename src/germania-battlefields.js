@@ -11,19 +11,21 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
     // value 6
     ATTACKER:{
         RIFLEMAN:{ basicSpeed: 1.25 },
-        MARKSMAN:{ basicSpeed: 1.25 },
+        SNIPER:{ basicSpeed: 1.25 },
         SUBMACHINE_GUNNER:{ basicSpeed: 1.25 },
         MACHINE_GUNNER:{ basicSpeed: 0.75 },
-        FLAMETHROWER:{ basicSpeed: 0.75 },
-        HEAVY_WEAPONS_GUNNER:{ basicSpeed: 0.75 }
+        MEDIC:{ basicSpeed: 0.75 },
+        ANTI_TANK_SPECIALIST:{ basicSpeed: 0.75 },
+		ANTI_TANK_RIFLEMAN:{ basicSpeed: 1 }
     },
     DEFENDER:{
         RIFLEMAN:{ firePower: 1.25 },
-        MARKSMAN:{ firePower: 1 },
+        SNIPER:{ firePower: 1 },
         SUBMACHINE_GUNNER:{ firePower: 1.25 },
         MACHINE_GUNNER:{ firePower: 2 },
-        FLAMETHROWER:{ firePower: 0.25 },
-        HEAVY_WEAPONS_GUNNER:{ firePower: 0.25 },
+        MEDIC:{ firePower: 0.25 },
+        ANTI_TANK_SPECIALIST:{ firePower: 0.25 },
+		ANTI_TANK_RIFLEMAN:{ firePower: 1 }
     }
 };
 
@@ -34,16 +36,18 @@ BATTLEFIELDS.THROUGH_THE_RUINS = {
         SNIPER:{ firePower: 0.5 },
         SUBMACHINE_GUNNER:{ firePower: 2 },
         MACHINE_GUNNER:{ firePower: 0.25 },
-        FLAMETHROWER:{ firePower: 3 },
-        HEAVY_WEAPONS_GUNNER:{ firePower:0.25 },
+        MEDIC:{ firePower: 3 },
+        ANTI_TANK_SPECIALIST:{ firePower:0.25 },
+		ANTI_TANK_RIFLEMAN:{ firePower: 1 }
     },
     DEFENDER:{
         RIFLEMAN:{ firePower: 1 },
         SNIPER:{ firePower: 0.75 },
         SUBMACHINE_GUNNER:{ firePower: 2 },
         MACHINE_GUNNER:{ firePower: 0.75 },
-        FLAMETHROWER:{ firePower: 2 },
-        HEAVY_WEAPONS_GUNNER:{ firePower:0.25 },
+        MEDIC:{ firePower: 2 },
+        ANTI_TANK_SPECIALIST:{ firePower:0.25 },
+		ANTI_TANK_RIFLEMAN:{ firePower: 1 }
     }
 };
 

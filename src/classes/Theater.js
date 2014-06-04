@@ -71,7 +71,9 @@ var Theater = function( event, origin, destination )
         
         // create the battles according to the mission, battlefields, origin and destination.
         var belligerents =  { "ATTACKER":[], "DEFENDER":[] };
-        
+
+		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
+
         var numberOfEnemies = 8;
         var numberOfSMGunners = Math.floor( Math.random() * 8 );
         var numberOfRifleman = numberOfEnemies - numberOfSMGunners;
@@ -126,10 +128,9 @@ var Theater = function( event, origin, destination )
         
         
         
-        
-        
+       	// should return a list of Battles generated for each battlefield.       
         // prototype battle.
-        return [ new Battle( belligerents, bIntroduction, bEnding, event.playerTeam ) ];
+        return [ new Battle( battlefields, belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
   
   	// initialize battles.
