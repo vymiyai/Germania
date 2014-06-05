@@ -72,33 +72,7 @@ var Theater = function( event, origin, destination )
         // create the battles according to the mission, battlefields, origin and destination.
         var belligerents =  { "ATTACKER":[], "DEFENDER":[] };
 
-		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
 
-		var attackerReport = "";
-		for( var attackerSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.ATTACKER )
-			for( var attackerAttributeName in attackerSoldierClass )
-				for( var attackerSoldier in belligerents.ATTACKER )
-				{
-					var as = belligerents.ATTACKER[ attackerSoldier ];
-					attackerReport += as.getName() + " - " + as.attackerAttributeName() + ":";
-					attackerReport += attackerSoldierClass[ attackerAttributeName ];
-					attackerReport += "\n";
-				}
-
-		alert( attackerReport );
-
-		var defenderReport = "";
-		for( var defenderSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.DEFENDER )
-			for( var defenderAttributeName in defenderSoldierClass )
-				for( var defenderSoldier in belligerents.DEFENDER )
-				{
-					var ds = belligerents.DEFENDER[ defenderSoldier ];
-					defenderReport += ds.getName() + " - " + ds.defenderAttributeName() + ":";
-					defenderReport += defenderSoldierClass[ defenderAttributeName ];
-					defenderReport += "\n";
-				}
-
-		alert( defenderReport );
 
         var numberOfEnemies = 8;
         var numberOfSMGunners = Math.floor( Math.random() * 8 );
@@ -110,18 +84,18 @@ var Theater = function( event, origin, destination )
         if( event.playerTeam == "ATTACKER" )
         {
             for( i = 0; i < numberOfRifleman; i++ )
-                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ], "DEFENDER" ) ) );
+                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ] ), "DEFENDER" ) );
             
             for( i = 0; i < numberOfSMGunners; i++ )
-                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ], "DEFENDER" ) ) );
+                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ] ), "DEFENDER" ) );
         }
         else
         {
             for( i = 0; i < numberOfRifleman; i++ )
-                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ], "ATTACKER" ) ) );
+                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ] ), "ATTACKER" ) );
             
             for( i = 0; i < numberOfSMGunners; i++ )
-                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ], "ATTACKER" ) ) );
+                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ] ), "ATTACKER" ) );
         }
         
         
@@ -132,31 +106,31 @@ var Theater = function( event, origin, destination )
         belligerents[ event.playerTeam ].push( atc );
         
         // add Valtion to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "VALTION" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "VALTION" ] ), event.playerTeam ) );
         
         // add Steyr to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "STEYR" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "STEYR" ] ), event.playerTeam ) );
         
         // add Mannlicher to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MANNLICHER" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MANNLICHER" ] ), event.playerTeam ) );
         
         // add Grossfuss to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "GROSSFUSS" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "GROSSFUSS" ] ), event.playerTeam ) );
         
         // add Mauser to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MAUSER" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MAUSER" ] ), event.playerTeam ) );
         
         // add Schneider to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SCHNEIDER" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SCHNEIDER" ] ), event.playerTeam ) );
         
         // add Solothurn to the player's team.
-        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SOLOTHURN" ], event.playerTeam ) ) );
+        belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SOLOTHURN" ] ), event.playerTeam ) );
         
         
         
        	// should return a list of Battles generated for each battlefield.       
         // prototype battle.
-        return [ new Battle( battlefields, belligerents, bIntroduction, bEnding, event.playerTeam ) ];
+        return [ new Battle( [], belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
   
   	// initialize battles.

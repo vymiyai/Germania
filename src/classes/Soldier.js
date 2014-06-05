@@ -45,6 +45,30 @@ var Soldier = function( stats )
         return this.currentHp > 0;
     };
     
+    // basic damage application method.
+    this.applyDamage = function( damage )
+	{
+		this.currentHp -= damage;
+		if( this.getCurrentHp() < 0 )
+			this.currentHp = 0;
+	};
+	
+	// convenience generic getter.
+    this.getAttribute = function( attributeName )
+	{
+		switch( attributeName )
+		{
+            case "apDam": return this.getAntiPersonnelDamage();
+            case "atDam": return this.getAntiTankDamage();
+            case "acc": return this.getAccuracy
+            case "rof": return this.getRateOfFire();
+            case "m": return this.getMovement();
+            case "hp": return this.getHitPoints();
+            default: return -1;
+		}
+	};
+    
+    
     // personality-based methods________________________________________________
 
     // default is random personality.
@@ -59,6 +83,7 @@ var Soldier = function( stats )
         return this.personality( statistics, targets );
     };
     
+    
     // getters__________________________________________________________________
     
     this.getName = function()
@@ -71,42 +96,35 @@ var Soldier = function( stats )
         return this.soldierClass;
     };
     
-    this.getAntiPersonnelDamage = this.apDam = function()
+    this.getAntiPersonnelDamage = function()
     {
         return this.apDam;
     };
     
-    this.getAntiTankDamage = this.atDam = function()
+    this.getAntiTankDamage = function()
     {
         return this.atDam;
     };
     
-    this.getAccuracy = this.acc = function()
+    this.getAccuracy = function()
     {
         return this.acc;
     };
     
-    this.getRateOfFire = this.rof = function()
+    this.getRateOfFire = function()
     {
         return this.rof;
     };
     
-    this.getMovement = this.m = function()
+    this.getMovement = function()
     {
         return this.m;
     };
     
-    this.getHitPoints = this.hp = function()
+    this.getHitPoints = function()
     {
         return this.hp;
     };
-    
-    this.applyDamage = function( damage )
-	{
-		this.currentHp -= damage;
-		if( this.getCurrentHp() < 0 )
-			this.currentHp = 0;
-	};
    
 
     

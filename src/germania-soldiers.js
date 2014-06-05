@@ -41,7 +41,7 @@ SOLDIERS.AURINKO  = { name:"Aurinko", soldierClass:"-", apDam:1, atDam:1, acc:1,
 SOLDIERS.VALTION    = { name:"Lotta Valtion", soldierClass:"Medic", apDam:3, atDam:2, acc:3, rof:2, m:3, hp:5, primary:"Mosin-Nagant M/39", secondary:"Lahti L-35" };               // rifle?
 
 // Austrian army.
-SOLDIERS.STEYR      = { name:"Jan Steyr", soldierClass:"Submachine gunner", apDam:2, atDam:1, acc:2, rof:4, m:5, hp:4, primary:"MP40 Steyr Custom", secondary:"Steyrn 1912" };              // submachine gun
+SOLDIERS.STEYR      = { name:"Jan Steyr", soldierClass:"Submachine gunner", apDam:2, atDam:1, acc:2, rof:4, m:5, hp:4, primary:"MP40 Steyr Custom", secondary:"Steyr 1912" };              // submachine gun
 SOLDIERS.MANNLICHER = { name:"Erika Mannlicher", soldierClass:"Sniper", apDam:3, atDam:2, acc:5, rof:2, m:3, hp:3, primary:"Scoped Steyr-Mannlicher M1895", secondary:"Luger P08" };    // sniper rifle
 
 // German army.

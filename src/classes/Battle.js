@@ -1,6 +1,6 @@
 "use strict";
 
-var Battle = function( belligerents, introduction, ending, playerTeam )
+var Battle = function( battlefields, belligerents, introduction, ending, playerTeam )
 {
   	// belligerents: { attacker:[], defender:[] }
   
@@ -42,10 +42,34 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
             return "ATTACKER";
     };
     
-    
-    
-    
-    
+    // calculates the "influence" force of the team.
+    this.calculateTeamInfluence = function( team, battlefield )
+    {
+		var teamInfluence = { "influence":0, "soldier":null };
+		var highestInfluence = 0;
+		
+		for( var tcIndex in team )
+		{
+            var teamContainer = team[ tcIndex ];
+            var soldier = teamContainer.getSoldier();
+            var attributes = battlefield[ teamContainer.getTeam() ][ soldier.getSoldierClass() ];
+
+            for( var attribute in attributes )
+            {
+                var weight = attributes[ attribute ];
+                var influence = weight * soldier.getAttribute( attribute );
+                teamInfluence.influence += influence;
+                
+                if( influence > highestInfluence )
+                {
+                    highestInfluence = influence;
+                    teamInfluence = soldier;
+                }
+            }
+		}
+		
+		return teamInfluence;
+    };
 
 	// executes the battle.
     this.start = function()
@@ -57,8 +81,38 @@ var Battle = function( belligerents, introduction, ending, playerTeam )
         this.battleStatus();
 
 
-        // calculos aqui...
+		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
 
+
+		alert( JSON.stringify( this.calculateTeamInfluence( this.attacker, BATTLEFIELDS.OPEN_FIELD_CHARGE ) ) );
+		alert( JSON.stringify( this.calculateTeamInfluence( this.defender, BATTLEFIELDS.OPEN_FIELD_CHARGE ) ) );
+		
+		/*
+		for( var attackerSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.ATTACKER )
+			for( var attackerAttributeName in BATTLEFIELDS.OPEN_FIELD_CHARGE.ATTACKER[ attackerSoldierClass ] )
+				for( var attackerSoldier in this.attacker )
+				{
+					var as = this.attacker[ attackerSoldier ].getSoldier();
+					attackerReport += as.getName() + " - " + as.attackerAttributeName() + ":";
+					attackerReport += attackerSoldierClass[ attackerAttributeName ];
+					attackerReport += "\n";
+				}
+
+		alert( attackerReport );
+
+		var defenderReport = "";
+		for( var defenderSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.DEFENDER )
+			for( var defenderAttributeName in BATTLEFIELDS.OPEN_FIELD_CHARGE.DEFENDER[ defenderSoldierClass ] )
+				for( var defenderSoldier in this.defender )
+				{
+					var ds = this.defender[ defenderSoldier ].getSoldier();
+					defenderReport += ds.getName() + " - " + ds.defenderAttributeName() + ":";
+					defenderReport += defenderSoldierClass[ defenderAttributeName ];
+					defenderReport += "\n";
+				}
+
+		alert( defenderReport );
+        */
 
         // check if the side that won was the player's.
         var result = this.playerTeam == this.getWinnerTeam();
