@@ -1,6 +1,6 @@
 "use strict";
 
-var Battle = function( battlefields, belligerents, introduction, ending, playerTeam )
+var Battle = function( battlefield, belligerents, introduction, ending, playerTeam )
 {
   	// belligerents: { attacker:[], defender:[] }
   
@@ -14,6 +14,7 @@ var Battle = function( battlefields, belligerents, introduction, ending, playerT
     this.playIntroduction   = introduction;
     this.playEnding         = ending;
   
+    this.battlefield = battlefield;
     // initialize with clones of the attacker and defender arrays...
     this.attacker   = belligerents[ "ATTACKER" ].slice(0);
     this.defender   = belligerents[ "DEFENDER" ].slice(0);
@@ -43,7 +44,7 @@ var Battle = function( battlefields, belligerents, introduction, ending, playerT
     };
     
     // calculates the "influence" force of the team.
-    this.calculateTeamInfluence = function( team, battlefield )
+    this.calculateTeamInfluence = function( team )
     {
 		var teamInfluence = { "influence":0, "soldier":null };
 		var highestInfluence = 0;
@@ -52,18 +53,22 @@ var Battle = function( battlefields, belligerents, introduction, ending, playerT
 		{
             var teamContainer = team[ tcIndex ];
             var soldier = teamContainer.getSoldier();
-            var attributes = battlefield[ teamContainer.getTeam() ][ soldier.getSoldierClass() ];
-
-            for( var attribute in attributes )
+            var attributes = this.battlefield[ teamContainer.getTeam() ][ soldier.getSoldierClass() ];
+            
+            // consider for calculation purposes only soldier that are alive!
+            if( soldier.isAlive() )
             {
-                var weight = attributes[ attribute ];
-                var influence = weight * soldier.getAttribute( attribute );
-                teamInfluence.influence += influence;
-                
-                if( influence > highestInfluence )
+                for( var attribute in attributes )
                 {
-                    highestInfluence = influence;
-                    teamInfluence = soldier;
+                    var weight = attributes[ attribute ];
+                    var influence = weight * soldier.getAttribute( attribute );
+                    teamInfluence.influence += influence;
+                    
+                    if( influence > highestInfluence )
+                    {
+                        highestInfluence = influence;
+                        teamInfluence.soldier = soldier;
+                    }
                 }
             }
 		}
@@ -76,43 +81,27 @@ var Battle = function( battlefields, belligerents, introduction, ending, playerT
     {
         // the counter that accumulates the number of turns that have passed.
         var turnCount = 0;
-
+        
         // announce the battle initial status.
         this.battleStatus();
-
-
+        
+        // conditions for a battle to finish:
+        // condition 1: Death battle - all members of a team die. 
+        // condition 2: Influence battle - influence points pushes the influence border to a certain threshold. 
+        // condition 3: One turn battle 
+        //  only in condition 3: if influence of one side is 100% higher than the other, repeat the battle once.
+        
+        // survivors of a battle will be propagated to the next battle?
+        
 		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
-
-
-		alert( JSON.stringify( this.calculateTeamInfluence( this.attacker, BATTLEFIELDS.OPEN_FIELD_CHARGE ) ) );
-		alert( JSON.stringify( this.calculateTeamInfluence( this.defender, BATTLEFIELDS.OPEN_FIELD_CHARGE ) ) );
+		alert( JSON.stringify( this.calculateTeamInfluence( this.attacker ) ) );
+		alert( JSON.stringify( this.calculateTeamInfluence( this.defender ) ) );
 		
-		/*
-		for( var attackerSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.ATTACKER )
-			for( var attackerAttributeName in BATTLEFIELDS.OPEN_FIELD_CHARGE.ATTACKER[ attackerSoldierClass ] )
-				for( var attackerSoldier in this.attacker )
-				{
-					var as = this.attacker[ attackerSoldier ].getSoldier();
-					attackerReport += as.getName() + " - " + as.attackerAttributeName() + ":";
-					attackerReport += attackerSoldierClass[ attackerAttributeName ];
-					attackerReport += "\n";
-				}
-
-		alert( attackerReport );
-
-		var defenderReport = "";
-		for( var defenderSoldierClass in BATTLEFIELDS.OPEN_FIELD_CHARGE.DEFENDER )
-			for( var defenderAttributeName in BATTLEFIELDS.OPEN_FIELD_CHARGE.DEFENDER[ defenderSoldierClass ] )
-				for( var defenderSoldier in this.defender )
-				{
-					var ds = this.defender[ defenderSoldier ].getSoldier();
-					defenderReport += ds.getName() + " - " + ds.defenderAttributeName() + ":";
-					defenderReport += defenderSoldierClass[ defenderAttributeName ];
-					defenderReport += "\n";
-				}
-
-		alert( defenderReport );
-        */
+		// the trivial case, one of the teams is empty, will skip this.
+		while( ! this.isBattleFinished() )
+		{
+            break;
+		}
 
         // check if the side that won was the player's.
         var result = this.playerTeam == this.getWinnerTeam();

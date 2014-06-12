@@ -35,13 +35,6 @@ var EventEngine = function( variables, escaves )
       
         var theater = new Theater( event, origin, destination );
 
-        /*
-        var battleEngine = new BattleEngine( theater );
-      
-        // return the result of the battle.
-        return battleEngine.run();
-        */
-
         return theater.run();
     };
   
@@ -82,7 +75,7 @@ var EventEngine = function( variables, escaves )
 			else
 			{
 				alert( "MISSION FAILED..." );
-                // apply penalisties here...
+                // apply penalties here...
 			}
 
 			// regardless if the player succeeded in the mission, refresh the mission menu.

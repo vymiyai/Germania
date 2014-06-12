@@ -130,7 +130,7 @@ var Theater = function( event, origin, destination )
         
        	// should return a list of Battles generated for each battlefield.       
         // prototype battle.
-        return [ new Battle( [], belligerents, bIntroduction, bEnding, event.playerTeam ) ];
+        return [ new Battle( BATTLEFIELDS.OPEN_FIELD_CHARGE, belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
   
   	// initialize battles.
