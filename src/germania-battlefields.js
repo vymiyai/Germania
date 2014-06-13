@@ -8,45 +8,43 @@
 var BATTLEFIELDS = {};
 
 BATTLEFIELDS.OPEN_FIELD_CHARGE = {
-    // value 6
     ATTACKER:{
-        Rifleman:{ apDam:0, m: 1.25 },
-        Sniper:{ apDam:0, m: 1.25 },
-        "Submachine gunner":{ apDam:0, m: 1.25 },
-        "Machine gunner":{ apDam:0, m: 0.75 },
-        Medic:{ apDam:0, m: 0.75 },
-        "Anti-tank specialist":{ apDam:0, m: 0.75 },
-		"Anti-tank rifleman":{ apDam:0, m: 1 }
+        "Rifleman":             { m: 1.25 },
+        "Sniper":               { m: 1.25 },
+        "Submachine gunner":    { m: 1.25 },
+        "Machine gunner":       { m: 0.75 },
+        "Medic":                { m: 1 },
+        "Anti-tank specialist": { m: 0.75 },
+		"Anti-tank rifleman":   { m: 0.75 }
     },
     DEFENDER:{
-        Rifleman:{ apDam: 1.25 },
-        Sniper:{ apDam: 1 },
-        "Submachine gunner":{ apDam: 1.25 },
-        "Machine gunner":{ apDam: 2 },
-        Medic:{ apDam: 0.25 },
-        "Anti-tank specialist":{ apDam: 0.25 },
-		"Anti-tank rifleman":{ apDam: 1 }
+        "Rifleman":             { rof: 1 },
+        "Sniper":               { rof: 0.75 },
+        "Submachine gunner":    { rof: 2 },
+        "Machine gunner":       { rof: 2 },
+        "Medic":                { rof: 0.75 },
+        "Anti-tank specialist": { rof: 0.25 },
+		"Anti-tank rifleman":   { rof: 0.25 }
     }
 };
 
 BATTLEFIELDS.THROUGH_THE_RUINS = {
-    // value 7
     ATTACKER:{
-        Rifleman:{ apDam: 1 },
-        Sniper:{ apDam: 0.5 },
-        "Submachine gunner":{ apDam: 2 },
-        "Machine gunner":{ apDam: 0.25 },
-        Medic:{ apDam: 3 },
-        "Anti-tank specialist":{ apDam:0.25 },
-		"Anti-tank rifleman":{ apDam: 1 }
+        "Rifleman":             { apDam: 1 },
+        "Sniper":               { apDam: 0.5 },
+        "Submachine gunner":    { apDam: 2 },
+        "Machine gunner":       { apDam: 0.25 },
+        "Medic":                { apDam: 3 },
+        "Anti-tank specialist": { apDam: 0.25 },
+		"Anti-tank rifleman":   { apDam: 1 }
     },
     DEFENDER:{
-        Rifleman:{ apDam: 1 },
-        Sniper:{ apDam: 0.75 },
-        "Submachine gunner":{ apDam: 2 },
-        "Machine gunner":{ apDam: 0.75 },
-        Medic:{ apDam: 2 },
-        "Anti-tank specialist":{ apDam:0.25 },
-		"Anti-tank rifleman":{ apDam: 1 }
+        "Rifleman":             { apDam: 1 },
+        "Sniper":               { apDam: 0.75 },
+        "Submachine gunner":    { apDam: 2 },
+        "Machine gunner":       { apDam: 0.75 },
+        "Medic":                { apDam: 2 },
+        "Anti-tank specialist": { apDam: 0.25 },
+		"Anti-tank rifleman":   { apDam: 1 }
     }
 };

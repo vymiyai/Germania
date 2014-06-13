@@ -81,12 +81,20 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
                 
                 
                 // compute the soldier's damage.
+                /*
                 var apDam = pad( attributes.apDam ) * soldier.getAntiPersonnelDamage();
                 var acc = pad( attributes.acc ) * soldier.getAccuracy();
                 
                 var rof = pad( attributes.rof ) * soldier.getRateOfFire();
                 
                 teamInfluence.damageLists.push( { attacks: Math.ceil( rof ), damage: Math.ceil( apDam * acc )  } );
+                */
+                var apDam   = soldier.getAntiPersonnelDamage();
+                var acc     = soldier.getAccuracy();
+                
+                var rof     = soldier.getRateOfFire();
+                
+                teamInfluence.damageLists.push( { rof: rof, acc: acc, apDam: apDam  } );
             }
 		}
 		

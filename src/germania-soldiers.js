@@ -33,9 +33,9 @@ var SOLDIERS = {};
 */
 
 SOLDIERS.SOLDIER_01  = { name:"Soldier (rifle)", soldierClass:"Rifleman", apDam:2, atDam:2, acc:2, rof:2, m:2, hp:2, primary:"Karabiner 98k", secondary:"Walther P38" };
-SOLDIERS.SOLDIER_02  = { name:"Soldier (SMG)", soldierClass:"Rifleman", apDam:1, atDam:1, acc:2, rof:3, m:3, hp:2, primary:"MP40", secondary:"Walther P38" };
+SOLDIERS.SOLDIER_02  = { name:"Soldier (SMG)", soldierClass:"Submachine gunner", apDam:1, atDam:1, acc:2, rof:3, m:3, hp:2, primary:"MP40", secondary:"Walther P38" };
 
-SOLDIERS.AURINKO  = { name:"Aurinko", soldierClass:"Rifleman", apDam:1, atDam:1, acc:1, rof:1, m:1, hp:1, primary:"-", secondary:"-" };
+SOLDIERS.AURINKO    = { name:"Aurinko", soldierClass:"Rifleman", apDam:1, atDam:1, acc:1, rof:1, m:1, hp:1, primary:"-", secondary:"-" };
 
 // Finnish army.
 SOLDIERS.VALTION    = { name:"Lotta Valtion", soldierClass:"Medic", apDam:3, atDam:2, acc:3, rof:2, m:3, hp:5, primary:"Mosin-Nagant M/39", secondary:"Lahti L-35" };               // rifle?
