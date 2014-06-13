@@ -15,6 +15,8 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     this.playEnding         = ending;
   
     this.battlefield = battlefield;
+    //this.battleType = battleType;
+    
     // initialize with clones of the attacker and defender arrays...
     this.attacker   = belligerents[ "ATTACKER" ].slice(0);
     this.defender   = belligerents[ "DEFENDER" ].slice(0);
@@ -91,10 +93,9 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
                 */
                 var apDam   = soldier.getAntiPersonnelDamage();
                 var acc     = soldier.getAccuracy();
-                
                 var rof     = soldier.getRateOfFire();
                 
-                teamInfluence.damageLists.push( { rof: rof, acc: acc, apDam: apDam  } );
+                teamInfluence.damageLists.push( { rof: rof, acc: acc, apDam: apDam } );
             }
 		}
 		
@@ -128,22 +129,56 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
             var attackerInfluence = this.calculateTeamInfluence( this.attacker );
             var defenderInfluence = this.calculateTeamInfluence( this.defender );
             
+            alert( JSON.stringify( attackerInfluence ) );
+            alert( JSON.stringify( defenderInfluence ) );
+            
+            var multipliers = this.battlefield.getDamageMultipliers( attackerInfluence.influence, defenderInfluence.influence );
+            
             // implement first the death battle. conditional will depend of the battle type, assigned in the theater, probably.
             if( true )
             {
                 // damage applied will depend on each soldier status
-                
                 // the higher the rate of fire, the lower will be the accuracy effect...
                 // RoF times -> apDam * ACC
+                
+                // calculate damages inflicted to the attackers by the defenders.
+                for( var damageItemIndex in defenderInfluence.damageLists )
+                {
+                    var damageItem = defenderInfluence.damageLists[ damageItemIndex ];
+                    
+                    // repeat damage calculation RoF times.
+                    for( var a = 0; a < damageItem.rof; a++ )
+                    {
+                        // check if the attack hit.
+                        var hitRoll = Math.random() * 5;
+                        if( hitRoll < damageItem.acc )
+                        {
+                            // determine the attack target for this attack.
+                            var targetIndex = Math.floor( Math.random() * this.attacker.length );
+                            var damage = Math.floor( multipliers.DEFENDER * damageItem.apDam );
+                            
+                            this.attacker[ targetIndex ].getSoldier().applyDamage( damageItem.apDam );
+                            alert( "DEFENDER " + damageItemIndex + " attacks " + this.attacker[ targetIndex ].getSoldier().getName() + ": -" + damage );
+                        }
+                        else
+                        {
+                            // the attack missed...
+                            alert( "DEFENDER " + damageItemIndex + " missed..." );
+                        }
+                    }
+                }
+                
+                // calculate damages inflicted to the defenders.
+                //defenderInfluence.damageLists;
             }
             
-            alert( JSON.stringify( attackerInfluence ) );
-            alert( JSON.stringify( defenderInfluence ) );
             
             
             break;
 		}
-
+		
+		this.battleStatus();
+		
         // check if the side that won was the player's.
         var result = this.playerTeam == this.getWinnerTeam();
       

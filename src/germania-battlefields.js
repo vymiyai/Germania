@@ -18,13 +18,17 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
 		"Anti-tank rifleman":   { m: 0.75 }
     },
     DEFENDER:{
-        "Rifleman":             { rof: 1 },
-        "Sniper":               { rof: 0.75 },
+        "Rifleman":             { rof: 0.75 },
+        "Sniper":               { rof: 0.5},
         "Submachine gunner":    { rof: 2 },
-        "Machine gunner":       { rof: 2 },
+        "Machine gunner":       { rof: 2.5 },
         "Medic":                { rof: 0.75 },
         "Anti-tank specialist": { rof: 0.25 },
 		"Anti-tank rifleman":   { rof: 0.25 }
+    },
+    getDamageMultipliers: function( attackerInfluence, defenderInfluence )
+    {
+        return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
     }
 };
 
