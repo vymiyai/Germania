@@ -58,13 +58,13 @@ var Soldier = function( stats )
 	{
 		switch( attributeName )
 		{
-            case "apDam": return this.getAntiPersonnelDamage();
-            case "atDam": return this.getAntiTankDamage();
-            case "acc": return this.getAccuracy
-            case "rof": return this.getRateOfFire();
-            case "m": return this.getMovement();
-            case "hp": return this.getHitPoints();
-            default: return -1;
+            case "apDam":   return this.getAntiPersonnelDamage();
+            case "atDam":   return this.getAntiTankDamage();
+            case "acc":     return this.getAccuracy
+            case "rof":     return this.getRateOfFire();
+            case "m":       return this.getMovement();
+            case "hp":      return this.getHitPoints();
+            default:        return -1;
 		}
 	};
     

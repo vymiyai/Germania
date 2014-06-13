@@ -126,7 +126,25 @@ var Theater = function( event, origin, destination )
         // add Solothurn to the player's team.
         belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SOLOTHURN" ] ), event.playerTeam ) );
         
-        
+
+
+
+
+
+        /*
+        // test trivial case without any combat.
+        if( event.playerTeam == "ATTACKER" )
+        {
+            belligerents.DEFENDER = [];
+        }
+        else
+        {
+            belligerents.ATTACKER = [];
+        }
+        */
+
+
+
         
        	// should return a list of Battles generated for each battlefield.       
         // prototype battle.

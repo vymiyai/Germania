@@ -46,7 +46,15 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     // calculates the "influence" force of the team.
     this.calculateTeamInfluence = function( team )
     {
-		var teamInfluence = { "influence":0, "soldier":null };
+        var pad = function( value )
+        {
+            if( typeof value === "undefined" )
+                return 1;
+            else
+                return value;
+        };
+        
+		var teamInfluence = { influence:0, soldier:null, damageLists:[] };
 		var highestInfluence = 0;
 		
 		for( var tcIndex in team )
@@ -70,6 +78,15 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
                         teamInfluence.soldier = soldier;
                     }
                 }
+                
+                
+                // compute the soldier's damage.
+                var apDam = pad( attributes.apDam ) * soldier.getAntiPersonnelDamage();
+                var acc = pad( attributes.acc ) * soldier.getAccuracy();
+                
+                var rof = pad( attributes.rof ) * soldier.getRateOfFire();
+                
+                teamInfluence.damageLists.push( { attacks: Math.ceil( rof ), damage: Math.ceil( apDam * acc )  } );
             }
 		}
 		
@@ -86,20 +103,36 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
         this.battleStatus();
         
         // conditions for a battle to finish:
-        // condition 1: Death battle - all members of a team die. 
-        // condition 2: Influence battle - influence points pushes the influence border to a certain threshold. 
+        // condition 1: Death battle - all members of a team must die. 
+        // condition 2: Influence battle - influence points pushes the influence border to a certain threshold, survivors are propagated?
         // condition 3: One turn battle 
         //  only in condition 3: if influence of one side is 100% higher than the other, repeat the battle once.
         
         // survivors of a battle will be propagated to the next battle?
         
 		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
-		alert( JSON.stringify( this.calculateTeamInfluence( this.attacker ) ) );
-		alert( JSON.stringify( this.calculateTeamInfluence( this.defender ) ) );
-		
+
+
+        
 		// the trivial case, one of the teams is empty, will skip this.
 		while( ! this.isBattleFinished() )
 		{
+            var attackerInfluence = this.calculateTeamInfluence( this.attacker );
+            var defenderInfluence = this.calculateTeamInfluence( this.defender );
+            
+            // implement first the death battle. conditional will depend of the battle type, assigned in the theater, probably.
+            if( true )
+            {
+                // damage applied will depend on each soldier status
+                
+                // the higher the rate of fire, the lower will be the accuracy effect...
+                // RoF times -> apDam * ACC
+            }
+            
+            alert( JSON.stringify( attackerInfluence ) );
+            alert( JSON.stringify( defenderInfluence ) );
+            
+            
             break;
 		}
 
