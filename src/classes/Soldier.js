@@ -1,24 +1,6 @@
 "use strict";
 
-// modifiers...?
-/*
-    Paratrooper - above average equipment
-    SS - stormtroopers/shock troopers
-    Elite
-    Veteran
-    Regular
-    Recruit
-*/
-
-/*
-Soldiers tem que ter um atributo que contem um mapa de atributos para valores.
-Esses valores devem ser usados pra adicao de bonus ou penalidades e devem ser considerados em praticamente qualquer item... Especialmente equips.
-
-O uso de getters e setters sera fortemente encorajado atraves disto...
-
-Atributos variam de 1 a 5.
-*/
-
+// class that represents a soldier in battles.
 var Soldier = function( stats )
 {
     this.name           = stats.name;
@@ -58,13 +40,13 @@ var Soldier = function( stats )
 	{
 		switch( attributeName )
 		{
-            case "apDam": return this.getAntiPersonnelDamage();
-            case "atDam": return this.getAntiTankDamage();
-            case "acc": return this.getAccuracy
-            case "rof": return this.getRateOfFire();
-            case "m": return this.getMovement();
-            case "hp": return this.getHitPoints();
-            default: return -1;
+            case "apDam":   return this.getAntiPersonnelDamage();
+            case "atDam":   return this.getAntiTankDamage();
+            case "acc":     return this.getAccuracy
+            case "rof":     return this.getRateOfFire();
+            case "m":       return this.getMovement();
+            case "hp":      return this.getHitPoints();
+            default:        return -1;
 		}
 	};
     

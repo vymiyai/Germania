@@ -3,6 +3,8 @@
 // object that contains the global variables used mainly by Events.
 var VARIABLES = {};
 
+VARIABLES[ "BASE DAMAGE" ]                          = 5;
+
 VARIABLES[ "CURRENT LOCATION" ]						= "STADTMITTE";
 VARIABLES[ "CURRENT MISSION" ]						= "START MISSION";
 VARIABLES[ "PLAYER TEAM" ]                          = "ATTACKER";
