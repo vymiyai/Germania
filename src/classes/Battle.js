@@ -27,43 +27,60 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     this.attackers           = belligerents.ATTACKER.slice(0);
     this.defenders           = belligerents.DEFENDER.slice(0);
     
-    // set arrays that will store the 
+    // set arrays that will keep the this.attackers or this.defenders indexes of the soldiers that are alive.
     this.attackersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.attackers );
     this.defendersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.defenders );
   
 
     
+    
+    
+    
+    
     // returns the name of the winner team. In case of draw, the defender wins.
     this.getWinnerTeam = function()
     {
-        //if( this.attackers.length === 0 )
         if( this.attackersAlive.length === 0 )
             return "DEFENDER";
         else
             return "ATTACKER";
     };
     
-    // calculates the statistical data of the team.
+    // returns true if one of the teams has been defeated.
+    this.isBattleFinished = function()
+    {
+        if( this.attackersAlive.length === 0 || this.defendersAlive.length === 0 )
+            return true;
+        else
+            return false;
+    };
+    
+    // calculates the battle data of the team.
     this.calculateTeamStatistics = function( team )
     {
 		var teamStatistics = { influence:0, soldier:null, damageLists:[] };
 		var highestInfluence = 0;
 		
+		// for each member of the team.
 		for( var tcIndex in team )
 		{
+		    // extract the soldier from its TeamContainer object.
             var teamContainer = team[ tcIndex ];
             var soldier = teamContainer.getSoldier();
+            
             var attributes = this.battlefield[ teamContainer.getTeam() ][ soldier.getSoldierClass() ];
             
             // consider for calculation purposes only soldier that are alive!
             if( soldier.isAlive() )
             {
+                // compute influence based on each weighted attribute specified in the battlefield.
                 for( var attribute in attributes )
                 {
                     var weight = attributes[ attribute ];
                     var influence = weight * soldier.getAttribute( attribute );
                     teamStatistics.influence += influence;
                     
+                    // set the attack's leading soldier.
                     if( influence > highestInfluence )
                     {
                         highestInfluence = influence;
@@ -71,11 +88,12 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
                     }
                 }
                 
-                // compute the attacks's damage.
+                // compute the damage item's (the attack itself) damage.
                 var apDam   = soldier.getAntiPersonnelDamage() * VARIABLES[ "BASE DAMAGE" ];
                 var acc     = soldier.getAccuracy();
                 var rof     = soldier.getRateOfFire();
                 
+                // push this damage item as an attack descriptor to be applied in the damage calculation step.
                 teamStatistics.damageLists.push( { rof: rof, acc: acc, apDam: apDam } );
             }
 		}
@@ -83,7 +101,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 		return teamStatistics;
     };
     
-    // applies damage to a targeted team applying the appropriate modifiers.
+    // private method that applies damage to a targeted team applying the appropriate modifiers.
     this.calculateDamage = function( attackingTeamStatistics, damageMultiplier, targetedTeam, aliveTargets  )
     {
         // for each damage item representing an attack, roll a hit test and damage.
@@ -108,18 +126,18 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
                     // apply damage to the targeted soldier.
                     soldier.applyDamage( damageItem.apDam );
                     
-                    //alert( "SOLDIER " + damageItemIndex + " attacks " + targetedTeam[ aliveTargets[ targetIndex ] ].getSoldier().getName() + ": -" + damage );
+                    // TODO some animation here?
                 }
                 else
                 {
                     // the attack missed...
-                    //alert( "SOLDIER " + damageItemIndex + " missed..." );
+                    // TODO some animation here?
                 }
             }
         }
     };
     
-    // remove the dead soldiers from the battle.
+    // private method that removes the dead soldiers from the battle.
     this.removeDeadSoldiers = function()
     {
         var index, tcIndex;
@@ -144,16 +162,6 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
         }
         this.defendersAlive = defendersAlive;
     };
-    
-    // returns true if one of the teams has been defeated.
-    this.isBattleFinished = function()
-    {
-        //if( this.attackers.length === 0 || this.defenders.length === 0 )
-        if( this.attackersAlive.length === 0 || this.defendersAlive.length === 0 )
-            return true;
-        else
-            return false;
-    };
 
 	// executes the battle.
     this.start = function()
@@ -170,11 +178,15 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
         // condition 3: One turn battle 
         //  only in condition 3: if influence of one side is 100% higher than the other, repeat the battle once.
         
-        // survivors of a battle will be propagated to the next battle?
+        // survivors of a battle will be propagated to the next battle as a probability roll based on their HP percentage.
         
 		// the missiom details should be stated in approximate number in the mission description and then distributed across all battlefields... Still need to decide if previous battlefield enemies will be propagated to later battlefields. Allocation should be done randomly until all enemies have been alllocated. Propagate only soldier that have little damage?
 
-		// iterate through battle rounds until a victory condition surfaces.
+
+
+
+
+		// iterate through battle rounds until a victory condition is raised.
 		while( ! this.isBattleFinished() )
 		{
             var attackerStatistics = this.calculateTeamStatistics( this.attackers );
@@ -182,28 +194,23 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
             
             // calculate the damage multipliers applicable for this battlefield.
             var multipliers = this.battlefield.getDamageMultipliers( attackerStatistics.influence, defenderStatistics.influence );
-            //alert( "MULTIPLIERS: " + JSON.stringify( multipliers ) );
             
-            // implement first the death battle. conditional will depend of the battle type, assigned in the theater, probably.
-            if( true )
-            {
-                // calculate damages inflicted to the attackers by the defenders.
-                this.calculateDamage( defenderStatistics, multipliers.DEFENDER, this.attackers, this.attackersAlive );
-                
-                // calculate damages inflicted to the defenders by the attackers.
-                this.calculateDamage( attackerStatistics, multipliers.ATTACKER, this.defenders, this.defendersAlive );
-                
-            }
+            // calculate damages inflicted to the attackers by the defenders.
+            this.calculateDamage( defenderStatistics, multipliers.DEFENDER, this.attackers, this.attackersAlive );
+            
+            // calculate damages inflicted to the defenders by the attackers.
+            this.calculateDamage( attackerStatistics, multipliers.ATTACKER, this.defenders, this.defendersAlive );
             
             // remove dead soldiers from the battle.
             this.removeDeadSoldiers();
+            
+            
+            
             
             var extra;
             extra = "ATTACKERS: " + JSON.stringify( this.attackersAlive ) + "\nDEFENDERS: " + JSON.stringify( this.defendersAlive ) + "\n";
             extra += "MULTIPLIERS: " + JSON.stringify( multipliers ) + "\n";
             this.battleStatus( extra );
-            
-            
 		}
 		
         // check if the side that won was the player's.

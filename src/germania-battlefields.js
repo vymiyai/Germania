@@ -28,7 +28,6 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
     },
     getDamageMultipliers: function( attackerInfluence, defenderInfluence )
     {
-        //return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
         return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
     }
 };
@@ -54,7 +53,6 @@ BATTLEFIELDS.THROUGH_THE_RUINS = {
     },
     getDamageMultipliers: function( attackerInfluence, defenderInfluence )
     {
-        //return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
         return { ATTACKER:attackerInfluence/defenderInfluence, DEFENDER:defenderInfluence/attackerInfluence };
     }
 };
