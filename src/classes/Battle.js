@@ -24,19 +24,19 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     this.turn               = 0;
     
     // initialize with clones of the attacker and defender arrays...
-    this.attacker           = belligerents.ATTACKER.slice(0);
-    this.defender           = belligerents.DEFENDER.slice(0);
+    this.attackers           = belligerents.ATTACKER.slice(0);
+    this.defenders           = belligerents.DEFENDER.slice(0);
     
     // set arrays that will store the 
-    this.attackersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.attacker );
-    this.defendersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.defender );
+    this.attackersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.attackers );
+    this.defendersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.defenders );
   
 
     
     // returns the name of the winner team. In case of draw, the defender wins.
     this.getWinnerTeam = function()
     {
-        //if( this.attacker.length === 0 )
+        //if( this.attackers.length === 0 )
         if( this.attackersAlive.length === 0 )
             return "DEFENDER";
         else
@@ -130,7 +130,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
         for( index in this.attackersAlive )
         {
             tcIndex = this.attackersAlive[ index ];
-            if( this.attacker[ tcIndex ].getSoldier().isAlive() )
+            if( this.attackers[ tcIndex ].getSoldier().isAlive() )
                 attackersAlive.push( tcIndex );
         }
         this.attackersAlive = attackersAlive;
@@ -139,7 +139,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
         for( index in this.defendersAlive )
         {
             tcIndex = this.defendersAlive[ index ];
-            if( this.defender[ tcIndex ].getSoldier().isAlive() )
+            if( this.defenders[ tcIndex ].getSoldier().isAlive() )
                 defendersAlive.push( tcIndex );
         }
         this.defendersAlive = defendersAlive;
@@ -148,7 +148,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     // returns true if one of the teams has been defeated.
     this.isBattleFinished = function()
     {
-        //if( this.attacker.length === 0 || this.defender.length === 0 )
+        //if( this.attackers.length === 0 || this.defenders.length === 0 )
         if( this.attackersAlive.length === 0 || this.defendersAlive.length === 0 )
             return true;
         else
@@ -177,8 +177,8 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 		// iterate through battle rounds until a victory condition surfaces.
 		while( ! this.isBattleFinished() )
 		{
-            var attackerStatistics = this.calculateTeamStatistics( this.attacker );
-            var defenderStatistics = this.calculateTeamStatistics( this.defender );
+            var attackerStatistics = this.calculateTeamStatistics( this.attackers );
+            var defenderStatistics = this.calculateTeamStatistics( this.defenders );
             
             // calculate the damage multipliers applicable for this battlefield.
             var multipliers = this.battlefield.getDamageMultipliers( attackerStatistics.influence, defenderStatistics.influence );
@@ -188,10 +188,10 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
             if( true )
             {
                 // calculate damages inflicted to the attackers by the defenders.
-                this.calculateDamage( defenderStatistics, multipliers.DEFENDER, this.attacker, this.attackersAlive );
+                this.calculateDamage( defenderStatistics, multipliers.DEFENDER, this.attackers, this.attackersAlive );
                 
                 // calculate damages inflicted to the defenders by the attackers.
-                this.calculateDamage( attackerStatistics, multipliers.ATTACKER, this.defender, this.defendersAlive );
+                this.calculateDamage( attackerStatistics, multipliers.ATTACKER, this.defenders, this.defendersAlive );
                 
             }
             
@@ -211,7 +211,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
       
         // return the result of the battle.
         // should build statistcs here...
-        return { "result": result, "attacker":this.attacker, "defender":this.defender };
+        return { "result": result, "ATTACKER":this.attackers, "DEFENDER":this.defenders };
     };
 
     // temporary battle status.
@@ -219,9 +219,9 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     {
         /*
 		var attackerStatus = "";
-		for( var i in this.attacker )
+		for( var i in this.attackers )
 		{
-            var soldier = this.attacker[ i ].getSoldier();
+            var soldier = this.attackers[ i ].getSoldier();
 			attackerStatus +=   "Name: " + soldier.getName() + 
                                 "\nAP-DAM: " + soldier.getAntiPersonnelDamage() + 
                                 "\nAT-DAM: " + soldier.getAntiTankDamage() + 
@@ -237,9 +237,9 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 		}
           
 		var defenderStatus = "";
-		for( var i in this.defender )
+		for( var i in this.defenders )
 		{
-            var soldier = this.defender[ i ].getSoldier();
+            var soldier = this.defenders[ i ].getSoldier();
 			defenderStatus +=   "Name: " + soldier.getName() + 
                                 "\nAP-DAM: " + soldier.getAntiPersonnelDamage() + 
                                 "\nAT-DAM: " + soldier.getAntiTankDamage() + 
@@ -263,9 +263,9 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 		var currentHp;
 		var maxHp;
 		
-		for( i in this.attacker )
+		for( i in this.attackers )
 		{
-            soldier = this.attacker[ i ].getSoldier();
+            soldier = this.attackers[ i ].getSoldier();
             
             currentHp = soldier.getCurrentHp();
             maxHp = soldier.getMaxHp();
@@ -275,9 +275,9 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 
     
 		var defenderStatus = "";
-		for( i in this.defender )
+		for( i in this.defenders )
 		{
-            soldier = this.defender[ i ].getSoldier();
+            soldier = this.defenders[ i ].getSoldier();
             
             currentHp = soldier.getCurrentHp();
             maxHp = soldier.getMaxHp();
