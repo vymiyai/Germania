@@ -28,27 +28,33 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
     },
     getDamageMultipliers: function( attackerInfluence, defenderInfluence )
     {
+        //return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
         return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
     }
 };
 
 BATTLEFIELDS.THROUGH_THE_RUINS = {
     ATTACKER:{
-        "Rifleman":             { apDam: 1 },
-        "Sniper":               { apDam: 0.5 },
-        "Submachine gunner":    { apDam: 2 },
+        "Rifleman":             { apDam: 1.25 },
+        "Sniper":               { apDam: 0.75 },
+        "Submachine gunner":    { apDam: 3 },
         "Machine gunner":       { apDam: 0.25 },
-        "Medic":                { apDam: 3 },
+        "Medic":                { apDam: 1.25 },
         "Anti-tank specialist": { apDam: 0.25 },
-		"Anti-tank rifleman":   { apDam: 1 }
+		"Anti-tank rifleman":   { apDam: 0.25 }
     },
     DEFENDER:{
         "Rifleman":             { apDam: 1 },
-        "Sniper":               { apDam: 0.75 },
-        "Submachine gunner":    { apDam: 2 },
-        "Machine gunner":       { apDam: 0.75 },
-        "Medic":                { apDam: 2 },
+        "Sniper":               { apDam: 1 },
+        "Submachine gunner":    { apDam: 2.5 },
+        "Machine gunner":       { apDam: 1 },
+        "Medic":                { apDam: 1 },
         "Anti-tank specialist": { apDam: 0.25 },
-		"Anti-tank rifleman":   { apDam: 1 }
+		"Anti-tank rifleman":   { apDam: 0.25 }
+    },
+    getDamageMultipliers: function( attackerInfluence, defenderInfluence )
+    {
+        //return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
+        return { ATTACKER:attackerInfluence/defenderInfluence, DEFENDER:defenderInfluence/attackerInfluence };
     }
 };

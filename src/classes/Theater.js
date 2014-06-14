@@ -27,8 +27,7 @@ var Theater = function( event, origin, destination )
   
     this.getTheaterBattlefields = function( origin, destination )
     {
-        alert( origin + " -> " + destination );
-        
+        //alert( origin + " -> " + destination );
         return $.extend( {}, THEATERS[ origin ][ destination ] );
         
     };
@@ -148,7 +147,7 @@ var Theater = function( event, origin, destination )
         
        	// should return a list of Battles generated for each battlefield.       
         // prototype battle.
-        return [ new Battle( BATTLEFIELDS.OPEN_FIELD_CHARGE, belligerents, bIntroduction, bEnding, event.playerTeam ) ];
+        return [ new Battle( BATTLEFIELDS.THROUGH_THE_RUINS, belligerents, bIntroduction, bEnding, event.playerTeam ) ];
     };
   
   	// initialize battles.
@@ -206,7 +205,7 @@ var Theater = function( event, origin, destination )
       
         this.callMenu( battleStatistics );
       
-        if( battleStatistics[ "result" ] == true )
+        if( battleStatistics[ "result" ] === true )
         {
             // enable next battle.
             this.currentBattle++;
@@ -225,7 +224,7 @@ var Theater = function( event, origin, destination )
     this.callMenu = function( result )
     {
         // a menu that may be spawned after a battle, such as match statistics...
-        alert( "SHOWING MATCH STATISTICS..." );
+        alert( "SHOWING MATCH STATISTICS...\n" + JSON.stringify( result ) );
     };
 
 };
