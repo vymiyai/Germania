@@ -15,9 +15,9 @@ var EVENTS = {};
 
 // through the specification, the only possible destination of a scavenge mission is the origin location.
 EVENTS[ "SCAVENGE MISSION" ] = new Event( 
-  	"SCAVENGE MISSION",
+    "SCAVENGE MISSION",
   	"SELF",
-  	"ATTACKER",
+  	"ATTACKERS",
 	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -35,7 +35,7 @@ EVENTS[ "SCAVENGE MISSION" ] = new Event(
 EVENTS[ "SCOUT MISSION" ] = new Event( 
   	"SCOUT MISSION",
   	"SELF",
-  	"ATTACKER",
+  	"ATTACKERS",
 	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -56,7 +56,7 @@ EVENTS[ "SCOUT MISSION" ] = new Event(
 EVENTS[ "START MISSION" ] = new Event(
 	"START MISSION",
   	"STADTMITTE",
-  	"ATTACKER",
+  	"ATTACKERS",
 	function( parentEscave, self )
 	{ 
       	var location = VARIABLES[ "CURRENT LOCATION" ] == "STADTMITTE";
@@ -74,7 +74,7 @@ EVENTS[ "START MISSION" ] = new Event(
 EVENTS[ "SUPPLY AMMO TO HAUPTBAHNHOF" ] = new Event( 
   	"SUPPLY AMMO TO HAUPTBAHNHOF",
   	"HAUPTBAHNHOF",
-  	"ATTACKER",
+  	"ATTACKERS",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -93,7 +93,7 @@ EVENTS[ "SUPPLY AMMO TO HAUPTBAHNHOF" ] = new Event(
 EVENTS[ "TARGET PRACTICE" ] = new Event( 
   	"TARGET PRACTICE",
   	"HAUPTBAHNHOF",
-  	"ATTACKER",
+  	"ATTACKERS",
 	function( parentEscave, self )
   	{
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -113,7 +113,7 @@ EVENTS[ "TARGET PRACTICE" ] = new Event(
 EVENTS[ "FIRST SCAVENGE MISSION" ] = new Event( 
   	"FIRST SCAVENGE MISSION",
   	"HAUPTBAHNHOF",
-  	"ATTACKER",
+  	"ATTACKERS",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -137,7 +137,7 @@ EVENTS[ "FIRST SCAVENGE MISSION" ] = new Event(
 EVENTS[ "SUPPLY FOOD TO STADTMITTE" ] = new Event( 
   	"SUPPLY FOOD TO STADTMITTE",
   	"STADTMITTE",
-  	"ATTACKER",
+  	"ATTACKERS",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -157,7 +157,7 @@ EVENTS[ "SUPPLY FOOD TO STADTMITTE" ] = new Event(
 EVENTS[ "FIRST SCOUT MISSION" ] = new Event( 
   	"FIRST SCOUT MISSION",
   	"STADTMITTE",
-  	"ATTACKER",
+  	"ATTACKERS",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;
@@ -181,7 +181,7 @@ EVENTS[ "FIRST SCOUT MISSION" ] = new Event(
 EVENTS[ "HOLD THE LINE" ] = new Event( 
   	"HOLD THE LINE",
   	"STADTMITTE",
-  	"DEFENDER",
+  	"DEFENDERS",
   	function( parentEscave, self )
   	{ 
       	var mission = VARIABLES[ "CURRENT MISSION" ] 	== self.name;

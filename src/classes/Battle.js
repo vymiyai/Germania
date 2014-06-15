@@ -1,6 +1,6 @@
 "use strict";
 
-var Battle = function( battlefield, belligerents, introduction, ending, playerTeam )
+var Battle = function( battlefield, belligerents, initialInfluence, playerTeam, introduction, ending )
 {
   	// belligerents: { attacker:[], defender:[] }
   
@@ -20,12 +20,16 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     // the name of the player's team.
     this.playerTeam         = playerTeam;
 
-    // the current soldier's index in this.turns.
-    this.turn               = 0;
+    // the duration of the battle in turns, used in fixed turn battles.
+    this.turnCount          = 0;
+    
+    // individual influences of each team as a function of the initial influences.
+    this.attackersInfluence = null;
+    this.defendersInfluence = null;
     
     // initialize with clones of the attacker and defender arrays...
-    this.attackers           = belligerents.ATTACKER.slice(0);
-    this.defenders           = belligerents.DEFENDER.slice(0);
+    this.attackers          = belligerents.ATTACKERS.slice(0);
+    this.defenders          = belligerents.DEFENDERS.slice(0);
     
     // set arrays that will keep the this.attackers or this.defenders indexes of the soldiers that are alive.
     this.attackersAlive = function( team ){ var result = []; for( var index in team ){ result.push( index ); } return result; }( this.attackers );
@@ -41,15 +45,22 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
     this.getWinnerTeam = function()
     {
         if( this.attackersAlive.length === 0 )
-            return "DEFENDER";
-        else
-            return "ATTACKER";
+            return "DEFENDERS";
+        
+        if( this.defendersAlive.length === 0 )
+            return "ATTACKERS";
+            
+        if( true )
+            return "DEFENDERS";
     };
     
-    // returns true if one of the teams has been defeated.
+    // returns true if:
+    // one of the teams has been defeated.
+    // the difference between battle duration and turn count is zero.
+    // the influence has tilted to one of the extremes.
     this.isBattleFinished = function()
     {
-        if( this.attackersAlive.length === 0 || this.defendersAlive.length === 0 )
+        if( this.attackersAlive.length === 0 || this.defendersAlive.length === 0 || this.duration - this.turnCount === 0 )
             return true;
         else
             return false;
@@ -64,7 +75,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 		// for each member of the team.
 		for( var tcIndex in team )
 		{
-		    // extract the soldier from its TeamContainer object.
+            // extract the soldier from its TeamContainer object.
             var teamContainer = team[ tcIndex ];
             var soldier = teamContainer.getSoldier();
             
@@ -166,9 +177,6 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 	// executes the battle.
     this.start = function()
     {
-        // the counter that accumulates the number of turns that have passed.
-        var turnCount = 0;
-        
         // announce the battle's initial status.
         this.battleStatus( "INITIAL SETTING:\n" );
         
@@ -189,6 +197,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
 		// iterate through battle rounds until a victory condition is raised.
 		while( ! this.isBattleFinished() )
 		{
+            // LOGIC FOR DEATH BATTLES__________________________________________
             var attackerStatistics = this.calculateTeamStatistics( this.attackers );
             var defenderStatistics = this.calculateTeamStatistics( this.defenders );
             
@@ -196,10 +205,16 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
             var multipliers = this.battlefield.getDamageMultipliers( attackerStatistics.influence, defenderStatistics.influence );
             
             // calculate damages inflicted to the attackers by the defenders.
-            this.calculateDamage( defenderStatistics, multipliers.DEFENDER, this.attackers, this.attackersAlive );
+            this.calculateDamage( defenderStatistics, multipliers.DEFENDERS, this.attackers, this.attackersAlive );
             
             // calculate damages inflicted to the defenders by the attackers.
-            this.calculateDamage( attackerStatistics, multipliers.ATTACKER, this.defenders, this.defendersAlive );
+            this.calculateDamage( attackerStatistics, multipliers.ATTACKERS, this.defenders, this.defendersAlive );
+            
+            // LOGIC FOR INFLUENCE BATTLE_______________________________________
+            var influenceDifference = attackerStatistics.influence - defenderStatistics.influence;
+            
+            // LOGIC FOR FIXED TIME BATTLE______________________________________
+            this.turnCount++;
             
             // remove dead soldiers from the battle.
             this.removeDeadSoldiers();
@@ -218,7 +233,7 @@ var Battle = function( battlefield, belligerents, introduction, ending, playerTe
       
         // return the result of the battle.
         // should build statistcs here...
-        return { "result": result, "ATTACKER":this.attackers, "DEFENDER":this.defenders };
+        return { "result": result, "ATTACKERS":this.attackers, "DEFENDERS":this.defenders };
     };
 
     // temporary battle status.

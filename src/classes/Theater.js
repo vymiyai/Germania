@@ -69,7 +69,7 @@ var Theater = function( event, origin, destination )
         
         
         // create the battles according to the mission, battlefields, origin and destination.
-        var belligerents =  { "ATTACKER":[], "DEFENDER":[] };
+        var belligerents =  { "ATTACKERS":[], "DEFENDERS":[] };
 
 
 
@@ -80,21 +80,21 @@ var Theater = function( event, origin, destination )
         
         // populate the enemy's team.
         var i = 0;
-        if( event.playerTeam == "ATTACKER" )
+        if( event.playerTeam == "ATTACKERS" )
         {
             for( i = 0; i < numberOfRifleman; i++ )
-                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ] ), "DEFENDER" ) );
+                belligerents.DEFENDERS.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ] ), "DEFENDERS" ) );
             
             for( i = 0; i < numberOfSMGunners; i++ )
-                belligerents.DEFENDER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ] ), "DEFENDER" ) );
+                belligerents.DEFENDERS.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ] ), "DEFENDERS" ) );
         }
         else
         {
             for( i = 0; i < numberOfRifleman; i++ )
-                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ] ), "ATTACKER" ) );
+                belligerents.ATTACKERS.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_01" ] ), "ATTACKERS" ) );
             
             for( i = 0; i < numberOfSMGunners; i++ )
-                belligerents.ATTACKER.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ] ), "ATTACKER" ) );
+                belligerents.ATTACKERS.push( new TeamContainer( new Soldier( SOLDIERS[ "SOLDIER_02" ] ), "ATTACKERS" ) );
         }
         
         
@@ -132,13 +132,13 @@ var Theater = function( event, origin, destination )
 
         /*
         // test trivial case without any combat.
-        if( event.playerTeam == "ATTACKER" )
+        if( event.playerTeam == "ATTACKERS" )
         {
-            belligerents.DEFENDER = [];
+            belligerents.DEFENDERS = [];
         }
         else
         {
-            belligerents.ATTACKER = [];
+            belligerents.ATTACKERS = [];
         }
         */
 
@@ -147,7 +147,7 @@ var Theater = function( event, origin, destination )
         
        	// should return a list of Battles generated for each battlefield.       
         // prototype battle.
-        return [ new Battle( BATTLEFIELDS.THROUGH_THE_RUINS, belligerents, bIntroduction, bEnding, event.playerTeam ) ];
+        return [ new Battle( BATTLEFIELDS.THROUGH_THE_RUINS, belligerents, { ATTACKERS:0.5, DEFENDERS:0.5 }, event.playerTeam, bIntroduction, bEnding ) ];
     };
   
   	// initialize battles.

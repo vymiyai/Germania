@@ -8,7 +8,7 @@
 var BATTLEFIELDS = {};
 
 BATTLEFIELDS.OPEN_FIELD_CHARGE = {
-    ATTACKER:{
+    ATTACKERS:{
         "Rifleman":             { m: 1.25 },
         "Sniper":               { m: 1.25 },
         "Submachine gunner":    { m: 1.25 },
@@ -17,7 +17,7 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
         "Anti-tank specialist": { m: 0.75 },
 		"Anti-tank rifleman":   { m: 0.75 }
     },
-    DEFENDER:{
+    DEFENDERS:{
         "Rifleman":             { rof: 0.75 },
         "Sniper":               { rof: 0.5},
         "Submachine gunner":    { rof: 2 },
@@ -28,12 +28,15 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
     },
     getDamageMultipliers: function( attackerInfluence, defenderInfluence )
     {
-        return { ATTACKER:0, DEFENDER:defenderInfluence/attackerInfluence };
-    }
+        return { ATTACKERS:0, DEFENDERS:defenderInfluence/attackerInfluence };
+    },
+    attackerInfluence: 0.3,
+    defenderInfluence: 0.7,
+    duration: 1
 };
 
 BATTLEFIELDS.THROUGH_THE_RUINS = {
-    ATTACKER:{
+    ATTACKERS:{
         "Rifleman":             { apDam: 1.25 },
         "Sniper":               { apDam: 0.75 },
         "Submachine gunner":    { apDam: 3 },
@@ -42,7 +45,7 @@ BATTLEFIELDS.THROUGH_THE_RUINS = {
         "Anti-tank specialist": { apDam: 0.25 },
 		"Anti-tank rifleman":   { apDam: 0.25 }
     },
-    DEFENDER:{
+    DEFENDERS:{
         "Rifleman":             { apDam: 1 },
         "Sniper":               { apDam: 1 },
         "Submachine gunner":    { apDam: 2.5 },
@@ -53,6 +56,9 @@ BATTLEFIELDS.THROUGH_THE_RUINS = {
     },
     getDamageMultipliers: function( attackerInfluence, defenderInfluence )
     {
-        return { ATTACKER:attackerInfluence/defenderInfluence, DEFENDER:defenderInfluence/attackerInfluence };
-    }
+        return { ATTACKERS:attackerInfluence/defenderInfluence, DEFENDERS:defenderInfluence/attackerInfluence };
+    },
+    attackerInfluence: 0.5,
+    defenderInfluence: 0.5,
+    duration: -1
 };
