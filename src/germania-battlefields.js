@@ -30,8 +30,8 @@ BATTLEFIELDS.OPEN_FIELD_CHARGE = {
     {
         return { ATTACKERS:0, DEFENDERS:defenderInfluence/attackerInfluence };
     },
-    attackerInfluence: 0.3,
-    defenderInfluence: 0.7,
+    attackersInfluence: 0.3,
+    defendersInfluence: 0.7,
     duration: 1
 };
 
@@ -58,7 +58,7 @@ BATTLEFIELDS.THROUGH_THE_RUINS = {
     {
         return { ATTACKERS:attackerInfluence/defenderInfluence, DEFENDERS:defenderInfluence/attackerInfluence };
     },
-    attackerInfluence: 0.5,
-    defenderInfluence: 0.5,
+    attackersInfluence: 0.5,
+    defendersInfluence: 0.5,
     duration: -1
 };

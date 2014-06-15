@@ -118,13 +118,13 @@ var Theater = function( event, origin, destination )
         
         // add Mauser to the player's team.
         belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "MAUSER" ] ), event.playerTeam ) );
-        
+        /*
         // add Schneider to the player's team.
         belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SCHNEIDER" ] ), event.playerTeam ) );
         
         // add Solothurn to the player's team.
         belligerents[ event.playerTeam ].push( new TeamContainer( new Soldier( SOLDIERS[ "SOLOTHURN" ] ), event.playerTeam ) );
-        
+        */
 
 
 
@@ -147,6 +147,7 @@ var Theater = function( event, origin, destination )
         
        	// should return a list of Battles generated for each battlefield.       
         // prototype battle.
+        //return [ new Battle( BATTLEFIELDS.OPEN_FIELD_CHARGE, belligerents, { ATTACKERS:0.5, DEFENDERS:0.5 }, event.playerTeam, bIntroduction, bEnding ) ];
         return [ new Battle( BATTLEFIELDS.THROUGH_THE_RUINS, belligerents, { ATTACKERS:0.5, DEFENDERS:0.5 }, event.playerTeam, bIntroduction, bEnding ) ];
     };
   
